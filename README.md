@@ -19,10 +19,17 @@ No provisions will be made for scaling or indefinite usage: this project is inte
 ## TOOLS
 
 HTML5/CSS3/Javascript
+
 React
+
 NodeJS
+
 MySQL
+
 Ubuntu
+
 AWS's EC2
+
 AWS's Route 53
+
 Nginx
