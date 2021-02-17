@@ -1,10 +1,10 @@
-Oinker
+# Oinker
 
 A Twitter clone.
 
 
 
-== GOAL
+## GOAL
 
 Oinker will be a Twitter look-alike, with many of the features of Twitter such as: posting, liking, following, notifications, private messages, photo uploads, and profiles.
 
@@ -16,7 +16,7 @@ No provisions will be made for scaling or indefinite usage: this project is inte
 
 
 
-== TOOLS
+## TOOLS
 
 HTML5/CSS3/Javascript
 
