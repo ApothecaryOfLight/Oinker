@@ -8,9 +8,9 @@
 <meta name="mobile-web-app-capable" content="yes">
 
 <!-- ReactJS Client-Side TODO Replace with Transpilation on server -->
-<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<!--script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script-->
 
 <!--BlueImp's MD5 implementation-->
 <script src="blueimp.min.js"></script>
@@ -29,10 +29,37 @@
   <div id="root_container">
     <div id="left_padding" class="page_padding"></div>
     <div id="menu_container">
-      <div id="menu_button_home></div>
-      <div id="menu_button_notification></div>
-      <div id="menu_button_email></div>
-      <div id="menu_button_search></div>
+      <div id="menu_mascot" style="font-size:4.5em;">&#128055;</div>
+      <div id="menu_button_home" class="menu_button">
+        <div id="menu_icon_home" class="material-icons md-42">
+          home
+        </div>
+        <span class="menu_text">Home</span>
+      </div>
+      <div id="menu_button_notification" class="menu_button">
+        <div id="menu_icon_notification" class="material-icons md-42">
+          notifications
+        </div>
+        <span class="menu_text">Notifications</span>
+      </div>
+      <div id="menu_button_email" class="menu_button">
+        <div id="menu_icon_email" class="material-icons md-42">
+          email
+        </div>
+        <span class="menu_text">Messages</span>
+      </div>
+      <div id="menu_button_search" class="menu_button">
+        <div id="menu_icon_search" class="material-icons md-42">
+          search
+        </div>
+        <span class="menu_text">Search</span>
+      </div>
+      <div id="menu_button_new_oink">
+        <span id="menu_icon_new_oink" class="material-icons md-42">
+          post_add
+        </span>
+        <span id="menu_text_new_oink">Oink</span>
+      </div>
     </div>
     <div id="main_container">
       <div id="timeline_container"></div>

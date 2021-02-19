@@ -19,24 +19,24 @@ body {
 }
 @media (min-width: 700px) {
   #root_container {
-    --main_width: calc( 90vw - 10em );
+    --main_width: calc( 90vw - 13em );
     --opt_width: 0px;
-    grid-template-columns: 5vw 10em var(--main_width) var(--opt_width) 5vw;
+    grid-template-columns: 5vw 13em var(--main_width) var(--opt_width) 5vw;
   }
 }
 @media (min-width: 999px) {
   #root_container {
-    --main_width: calc( 100vw - 12em );
+    --main_width: calc( 100vw - 13em );
     --opt_width: 0px;
-    grid-template-columns: 5vw 4em var(--main_width) var(--opt_width) 5vw;
+    grid-template-columns: 5vw 13em var(--main_width) var(--opt_width) 5vw;
   }
 }
 @media (min-width: 1000px) {
   #root_container {
-    --main_width: min( 500px, calc( 55vw - 5em ) );
-    --opt_width: min( 400px, calc( 35vw - 5em ) );
+    --main_width: min( 500px, calc( 55vw - 6.5em ) );
+    --opt_width: min( 400px, calc( 35vw - 6.5em ) );
     --padding: calc( (100vw - ( var(--main_width) + var(--opt_width) + 10em)) / 2 );
-    grid-template-columns: var(--padding) 10em var(--main_width) var(--opt_width) var(--padding);
+    grid-template-columns: var(--padding) 13em var(--main_width) var(--opt_width) var(--padding);
   }
 }
 
@@ -55,15 +55,106 @@ body {
 /*Menu*/
 #menu_container {
   grid-column: 2;
-  background-color: green;
   width: 100%;
   height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media (min-width: 700px) {
+  #menu_mascot {
+    margin-left:1em; 
+  }
+}
+@media (min-width: 700px) {
+  #menu_container {
+    align-items: flex-start;
+  }
+}
+.menu_button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 50%;
+  padding: .5em;
+/*  border: 1px black solid;*/
+  margin-top: 1.75em;
+  cursor: pointer;
+}
+.menu_button:hover {
+  color: #FF66CC;
+  background-color: #FFCCFF55;
+}
+@media (min-width: 700px) {
+  .menu_button {
+    border-radius: 24px;
+    padding: .25em;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin: .25em;
+    margin-top: 1.75em;
+  }
+}
+.menu_text {
+  display: none;
+}
+@media (min-width:700px) {
+  .menu_text {
+    display: inline-block;
+    padding-left: 1em;
+    font-size: 1.4em;
+    font-weight: bold;
+  }
+}
+  /*New Oink Button*/
+#menu_button_new_oink {
+  padding: 1em;
+  border-radius: 50%;
+
+/*  border-radius: 24px;*/
+  background-color: #FFB8F8;
+
+  margin-top: 3em;
+
+  cursor: pointer;
+}
+#menu_button_new_oink:hover {
+  background-color: #FFA8ED;
+}
+@media (min-width: 700px) {
+  #menu_button_new_oink {
+    padding-left: 2em;
+    padding-right: 2em;
+    padding: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
+    width: calc( 100% - 4em );
+    border-radius: 24px;
+  }
+}
+#menu_text_new_oink {
+  display: none;
+}
+#menu_icon_new_oink {
+  display: flex;
+}
+@media (min-width:700px) {
+  #menu_text_new_oink {
+    display: block;
+    font-size: 1.4em;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+  }
+  #menu_icon_new_oink {
+    display: none;
+  } 
 }
 
 /*Main*/
 #main_container {
   grid-column: 3;
-  background-color: yellow;
   width: 100%;
   height: 100vh;
 }
@@ -71,7 +162,75 @@ body {
 /*Optional*/
 #opt_container {
   grid-column: 4;
-  background-color: purple;
   width: 100%;
   height: 100vh;
+}
+
+/*Google icons*/
+.material-icons.md-42 {
+  font-size: 42px;
+}
+
+
+/*Oink*/
+.oink {
+  display: grid;
+  grid-template-rows: 2em 4em auto;
+  grid-template-columns: 6em calc( 100% - 2em );
+
+  border: 1px black solid;
+}
+
+.oink_icon_container {
+  disaply: flex;
+  justify-conent: center;
+  align-items: center;
+
+  grid-row-start: 1;
+  grid-row-end: 3;
+  grid-column: 1;
+
+  width: 100%;
+  height: 100%;
+}
+.oink_icon {
+  border-radius: 50%;
+  background: purple;
+  width: 60%;
+  height: 60%;
+  margin-top: .75em;
+  margin-left: .75em;
+}
+
+.oink_name_container {
+  grid-row: 1;
+  grid-column: 2;
+  display: flex;
+  flex-direction: row;
+  margin-top: 1em;
+}
+.oink_nym {
+  font-weight: bold;
+}
+.oink_name_id {
+
+}
+.oink_time {
+
+}
+
+.oink_message_container {
+  grid-row: 2;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+
+  margin-top: .3em;
+}
+.oink_message {
+
+}
+.oink_button_container {
+  margin-top: 1em;
+  margin-bottom: .2em;
 }
