@@ -1,3 +1,87 @@
-* {
-  color: blue;
+/*Root*/
+body {
+  padding: 0px;
+  margin: 0px;
+  overflow-x: hidden;
+}
+#root_container {
+  display: grid;
+  --main_width: calc( 100vw - 10vw - 4em );
+  --opt_width: calc( 100vw - 10vw );
+  grid-template-columns: 0vw 4em var(--main_width) var(--opt_width) 0vw;
+}
+@media (min-width: 300px) {
+  #root_container {
+    --main_width: calc( 100vw - 2em );
+    --opt_width: 0px;
+    grid-template-columns: 0vw 4em var(--main_width) var(--opt_width) 0vw;
+  }
+}
+@media (min-width: 500px) {
+  #root_container {
+    --main_width: calc( 100vw - 2em );
+    --opt_width: 0px;
+    grid-template-columns: 0vw 4em var(--main_width) var(--opt_width) 0vw;
+  }
+}
+@media (min-width: 600px) {
+  #root_container {
+    --main_width: calc( 65vw - 5em );
+    --opt_width: calc( 25vw - 5em );
+    grid-template-columns: 5vw 10em var(--main_width) var(--opt_width) 5vw;
+  }
+}
+@media (min-width: 800px) {
+
+}
+
+/*Padding*/
+.page_padding {
+  width: 100%;
+  height: 100vh;
+}
+#left_padding {
+  grid-column: 1;  
+}
+#right_padding {
+  grid-column: 5;
+}
+
+/*Menu*/
+#menu_container {
+  grid-column: 2;
+  background-color: green;
+  width: 100%;
+  height: 100vh;
+}
+
+/*Main*/
+#main_container {
+  grid-column: 3;
+  background-color: yellow;
+  width: 100%;
+  height: 100vh;
+}
+
+/*Optional*/
+#opt_container {
+  grid-column: 4;
+  background-color: purple;
+  width: 100%;
+  height: 100vh;
+}
+@media (min-width: 300px) {
+  #root_container {
+    
+  }
+}
+@media (min-width: 500px) {
+  #opt_container {
+    display: none;
+  }
+}
+@media (min-width: 800px) {
+  #opt_container {
+    display: flex;
+  }
 }
