@@ -8,33 +8,43 @@ body {
   display: grid;
   --main_width: calc( 100vw - 10vw - 4em );
   --opt_width: calc( 100vw - 10vw );
-  grid-template-columns: 0vw 4em var(--main_width) var(--opt_width) 0vw;
+  --padding: 0px;
+  grid-template-columns: 0vw 6em var(--main_width) var(--opt_width) 0vw;
 }
 @media (min-width: 500px) {
   #root_container {
-    --main_width: calc( 94vw - 4em );
+    --main_width: calc( 94vw - 6em );
     --opt_width: 0px;
-    grid-template-columns: 3vw 4em var(--main_width) var(--opt_width) 3vw;
+    --padding: 0px;
+    grid-template-columns: 3vw 6em var(--main_width) var(--opt_width) 3vw;
   }
 }
 @media (min-width: 700px) {
   #root_container {
-    --main_width: calc( 90vw - 16em );
+    --main_width: 600px;
     --opt_width: 0px;
-    grid-template-columns: 5vw 16em var(--main_width) var(--opt_width) 5vw;
+    --padding: calc( (100vw - (600px + 6em)) / 2 );
+    grid-template-columns: var(--padding) 6em var(--main_width) var(--opt_width) var(--padding);
   }
-}
-@media (min-width: 999px) {
-  #root_container {
-    --main_width: calc( 100vw - 16em );
-    --opt_width: 0px;
-    grid-template-columns: 5vw 16em var(--main_width) var(--opt_width) 5vw;
+  #opt_container {
+    display: none;
   }
 }
 @media (min-width: 1000px) {
   #root_container {
-    --main_width: min( 500px, calc( 55vw - 8em ) );
-    --opt_width: min( 400px, calc( 35vw - 8em ) );
+    --main_width: 600px;
+    --opt_width: 350px;
+    --padding: calc( (100vw - (950px + 6em)) / 2 );
+    grid-template-columns: var(--padding) 6em var(--main_width) var(--opt_width) var(--padding);
+  }
+  #opt_container {
+    display: flex;
+  }
+}
+@media (min-width: 1280px) {
+  #root_container {
+    --main_width: 600px;
+    --opt_width: 400px;
     --padding: calc( (100vw - ( var(--main_width) + var(--opt_width) + 16em)) / 2 );
     grid-template-columns: var(--padding) 16em var(--main_width) var(--opt_width) var(--padding);
   }
@@ -54,16 +64,24 @@ body {
 
 /*Menu*/
 #menu_container {
-  grid-column: 2;
-  width: 100%;
-  height: 100vh;
+  position: fixed;
 
   display: flex;
   flex-direction: column;
+
+  left: 0px;
+  margin-left: max( var(--padding), 1em );
+
+  grid-column: 2;
+/*  width: 100%;*/
+  height: 100vh;
+
   align-items: center;
+
+  margin-top: 1em;
 }
 #menu_mascot {
-  font-size: 3em;
+  font-size: 2em;
   cursor: pointer;
   align-self: center;
 }
@@ -72,7 +90,7 @@ body {
 /*    margin-left:1em; */
   }
 }
-@media (min-width: 700px) {
+@media (min-width: 1280px) {
   #menu_container {
     align-items: flex-start;
   }
@@ -84,14 +102,14 @@ body {
   border-radius: 50%;
   padding: .5em;
 /*  border: 1px black solid;*/
-  margin-top: 1.75em;
+  margin-top: .7em;
   cursor: pointer;
 }
 .menu_button:hover {
   color: #FF66CC;
   background-color: #FFCCFF55;
 }
-@media (min-width: 700px) {
+@media (min-width: 1280px) {
   .menu_button {
     border-radius: 24px;
     padding: .25em;
@@ -104,7 +122,7 @@ body {
 .menu_text {
   display: none;
 }
-@media (min-width:700px) {
+@media (min-width:1280px) {
   .menu_text {
     display: inline-block;
     padding-left: 1em;
@@ -120,14 +138,14 @@ body {
 /*  border-radius: 24px;*/
   background-color: #FFB8F8;
 
-  margin-top: 3em;
+  margin-top: 2em;
 
   cursor: pointer;
 }
 #menu_button_new_oink:hover {
   background-color: #FFA8ED;
 }
-@media (min-width: 700px) {
+@media (min-width: 1280px) {
   #menu_button_new_oink {
     padding-left: 2em;
     padding-right: 2em;
@@ -144,7 +162,7 @@ body {
 #menu_icon_new_oink {
   display: flex;
 }
-@media (min-width:700px) {
+@media (min-width:1280px) {
   #menu_text_new_oink {
     display: block;
     font-size: 1.4em;
@@ -173,7 +191,7 @@ body {
 
 /*Google icons*/
 .material-icons.md-42 {
-  font-size: 42px;
+  font-size: 32px;
 }
 
 
@@ -240,4 +258,38 @@ body {
 .oink_button_container {
   margin-top: 1em;
   margin-bottom: .2em;
+}
+
+
+/*News Items*/
+#news_items_container {
+  margin-top: 2em;
+  border-radius: 1em;
+  background-color: #99996620;
+  padding: 1em;
+  margin-left: 2em;
+}
+.news_items_title {
+  font-size: 1.5em;
+  font-weight: bold;
+  padding-top: .5em;
+  padding-bottom: 1em;
+  padding-left: .5em;
+}
+.news_item_container {
+  border-bottom: 1px #99996633 solid;
+  display: flex;
+  flex-direction: column;
+}
+.news_item_topic {
+  margin-top: .5em;
+  color: grey;
+}
+.news_item_headline {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.news_item_message {
+  margin-bottom: 2em;
+  color: grey;
 }
