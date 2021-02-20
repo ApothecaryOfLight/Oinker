@@ -186,7 +186,7 @@ body {
 #opt_container {
   grid-column: 4;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 
 /*Google icons*/
@@ -194,8 +194,74 @@ body {
   font-size: 32px;
 }
 
+/*New Oink*/
+#new_oink_container {
+  display: grid;
+  grid-template-columns: 3em auto;
+  margin-bottom: 1em;
+  padding-bottom: .8em;
+  border-bottom: 1px #99996633 solid;
+}
+#new_oink_icon_container {
+  width: 3em;
+  height: 3em;
+  grid-column: 1;
+}
+#new_oink_icon {
+  border-radius: 50%;
+  background: purple;
+  height: 100%;
+  width: 100%;
+}
+#new_oink_message_container {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+}
+#new_oink_message {
+  margin-top: .6em;
+  margin-left: .3em;
+  border: 0px;
+  font-size: 1.2em;
+  outline: none;
+  width: 100%;
+  overflow-wrap: anywhere;
+  border-bottom: 1px #99996633 solid;
+  color: #80808066;
+}
+/*#new_oink_message:focus {
+  color: black;
+}*/
+/*#new_oink_message::placeholder {
+  color: #80808066;
+}*/
+#new_oink_button_container {
+  width: 100%;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+}
+#new_oink_button {
+  border-radius: 18px;
+  background-color: #FFB8F8;
+  border: 0px;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #0000AAAA;
+  padding: .7em;
+  width: 4.5em;
+  align-self: flex-end;
+  cursor: pointer;
+}
+#new_oink_button:hover {
+  background-color: #FFA8ED;
+}
+
 
 /*Oink*/
+#home_container_title {
+  font-size: 2em;
+}
 .oink {
   display: grid;
   grid-template-rows: 2em 4em auto;
@@ -268,28 +334,32 @@ body {
   background-color: #99996620;
   padding: 1em;
   margin-left: 2em;
+  margin-bottom: 4em;
 }
 .news_items_title {
   font-size: 1.5em;
   font-weight: bold;
-  padding-top: .5em;
-  padding-bottom: 1em;
-  padding-left: .5em;
+/*  padding-top: .5em;
+  padding-bottom: .5em;
+  padding-left: .5em;*/
 }
 .news_item_container {
   border-bottom: 1px #99996633 solid;
   display: flex;
   flex-direction: column;
+  margin-top: 1em;
 }
 .news_item_topic {
   margin-top: .5em;
   color: grey;
+  font-size: .9em;
 }
 .news_item_headline {
   font-size: 1.5em;
   font-weight: bold;
 }
 .news_item_message {
-  margin-bottom: 2em;
+  margin-bottom: 1em;
+  font-size: 1.2em;
   color: grey;
 }

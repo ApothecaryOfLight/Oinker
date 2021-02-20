@@ -5,7 +5,28 @@ console.log( "Yipee!" );
 window.addEventListener( 'load', (event)=> {
   render_timeline( fake_data.oinks );
   render_whats_happening( fake_data.news );
+  attach_to_new_oink();
 });
+
+function attach_to_new_oink() {
+  const new_oink_message = document.getElementById("new_oink_message");
+  new_oink_message.onkeydown = (event) => {
+    if( new_oink_message.innerText == "What's happening?" ) {
+      new_oink_message.innerText = "";
+      new_oink_message.style.color = "black";
+    }
+  };
+  new_oink_message.onclick = (event) => {
+console.dir( new_oink_message );
+    let range = document.createRange();
+    let sel = window.getSelection();
+    range.setStart( new_oink_message.childNodes[0], new_oink_message.childNodes[1] );
+    range.collapse( true );
+    sel.removeAllRanges();
+    sel.addRange( range );
+    new_oink_message.style["caret-color"] = "black";
+  };
+}
 
 
 let fake_data = {
@@ -57,26 +78,6 @@ let fake_data = {
   ],
   news : [
     {
-      topic: "Politics",
-      headline: "Joe Manchin is Sexist",
-      message: "Who knew!? I know no other Democrat can get elected in West Virignia, but have we considered getting rid of West Virginia?"
-    },
-    {
-      topic: "Sports",
-      headline: "Organized Sports: Worse Than Organized Crime?",
-      message: "Why can\'t y\'all just play pick up games? Why does it have to consume society like a disease?"
-    },
-    {
-      topic: "Politics",
-      headline: "Cruz Abandons Dog",
-      message: "Polls show his voters care more about that than him leaving them all to freeze."
-    },
-    {
-      topic: "Politics",
-      headline: "Low-Info Voters Upset Biden Not Using Doctor Strange Powers",
-      message: "Why hasn\'t he fixed everything yet?"
-    },
-    {
       topic: "Science",
       headline: "Another Rover on Mars",
       message: "Nerds Argue About GNU vs Linux"
@@ -95,11 +96,6 @@ let fake_data = {
       topic: "Politics",
       headline: "US Right Wingers Continue to Confuse Freedom with Whatever-The-Hell-I-Want",
       message: "Performative anti-mask and other pro-plague behaviors continue to endanger world at large as US variants surge. Yet again, this reporter must ask: why is my country so selfish and stupid?"
-    },
-    {
-      topic: "Entertainment",
-      headline: "Judas and the Black Messiah",
-      message: "Actually happened almost exactly as depicted. Compare with West Wing and other Sorkin ventures, which have absolutely no relation to reality. Discuss."
     }
   ]
 }
@@ -126,7 +122,7 @@ function render_timeline( inTimeline ) {
       "</div>"
   }
 
-  const main_container = document.getElementById("main_container");
+  const main_container = document.getElementById("timeline_container");
   main_container.innerHTML = div;
 }
 
