@@ -18,13 +18,15 @@ function attach_to_new_oink() {
   };
   new_oink_message.onclick = (event) => {
 console.dir( new_oink_message );
-    let range = document.createRange();
-    let sel = window.getSelection();
-    range.setStart( new_oink_message.childNodes[0], new_oink_message.childNodes[1] );
-    range.collapse( true );
-    sel.removeAllRanges();
-    sel.addRange( range );
-    new_oink_message.style["caret-color"] = "black";
+    if( new_oink_message.innerText == "What's happening?" ) {
+      let range = document.createRange();
+      let sel = window.getSelection();
+      range.setStart( new_oink_message.childNodes[0], new_oink_message.childNodes[1] );
+      range.collapse( true );
+      sel.removeAllRanges();
+      sel.addRange( range );
+      new_oink_message.style["caret-color"] = "black";
+    }
   };
 }
 
