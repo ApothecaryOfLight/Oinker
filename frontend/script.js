@@ -5,9 +5,9 @@ console.log( "Yipee!" );
 window.addEventListener( 'load', (event)=> {
   render_timeline( fake_data.oinks );
   render_whats_happening( fake_data.news );
-  attach_to_new_oink();
+  //attach_to_new_oink();
 
-  request_oinks();
+  //request_oinks();
 
   launch_login_interface();
 });
@@ -18,6 +18,7 @@ function launch_oink_interface() {
   root_interface.style.display = "grid";
   login_interface.style.display = "none";
   attach_to_new_oink();
+  request_oinks();
 }
 
 function attach_to_new_oink() {
@@ -39,6 +40,48 @@ function attach_to_new_oink() {
       new_oink_message.style["caret-color"] = "black";
     }
   };
+
+  const new_oink_button = document.getElementById("new_oink_button");
+  new_oink_button.addEventListener( 'mousedown', (event) => {
+    send_new_oink();
+  });
+}
+
+function send_new_oink() {
+  const new_oink_field = document.getElementById("new_oink_message");
+  const new_oink_text = new_oink_field.innerText;
+
+  const timestamp_raw = new Date(Date.now());
+  console.log( timestamp_raw );
+  const timestamp_string = timestamp_raw.toISOString();
+  console.log( timestamp_string );
+  const date = timestamp_string.substr( 0, 10 );
+  console.log( date );
+  const time = timestamp_string.substr( 11, 8 );
+  console.log( time );
+  const clean_timestamp = date + " " + time;
+  console.log( clean_timestamp );
+
+  if( new_oink_text != "What's happening?" ) {
+    console.log( new_oink_text );
+    fetch( 'http://34.209.84.105:3000/new_oink',
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        username_hash: global.username_hash,
+        username_plaintext: global.username_plaintext,
+        text_content: new_oink_text,
+        timestamp: clean_timestamp
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  ).then( response => response.json() )
+  .then( json => {
+    console.dir( json );
+  });
+  }
 }
 
 
@@ -122,13 +165,13 @@ function render_timeline( inTimeline ) {
           "image" +
         "</div></div>" +
         "<div class=\"oink_name_container\">" +
-          "<div class=\"oink_nym\">" + inTimeline[oink].username + "</div>" +
+          "<div class=\"oink_nym\">" + inTimeline[oink].username_plaintext + "</div>" +
           "<div class=\"oink_name_id\"></div>" +
           "<div class=\"oink_time\"></div>" +
         "</div>" +
         "<div class=\"oink_message_container\">" +
           "<div class=\"oink_message\">" +
-            inTimeline[oink].message +
+            inTimeline[oink].text_content +
           "</div>" +
           "<div class=\"oink_button_container\">" + "buttons here" + "</div>" +
         "</div>" +
@@ -162,6 +205,7 @@ async function request_oinks() {
     .then( response => response.json() )
     .then( json => {
       console.dir( json );
+      render_timeline( json );
     });
 }
 
@@ -189,6 +233,11 @@ function attach_login() {
   });
 }
 
+const global = {
+  username_hash: "",
+  username_plaintext: ""
+}
+
 async function attempt_login( inUsername, inPassword ) {
   fetch( 'http://34.209.84.105:3000/attempt_login',
     {
@@ -205,6 +254,8 @@ async function attempt_login( inUsername, inPassword ) {
   ).then( response => response.json() )
   .then( json => {
     console.dir( json );
+    global.username_hash = md5(inUsername);
+    global.username_plaintext = inUsername;
     launch_oink_interface();
   });
 }
@@ -225,5 +276,8 @@ async function attempt_create_account( inUsername, inPassword ) {
   ).then( response => response.json() )
   .then( json => {
     console.dir( json );
+    global.username_hash = md5(inUsername);
+    global.username_plaintext = inUsername;
+    launch_oink_interface();
   });
 }

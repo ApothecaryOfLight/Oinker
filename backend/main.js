@@ -77,7 +77,7 @@ app.post( '/new_oink', async function(req,res) {
   console.log( "New oink received." );
   console.dir( req.body );
 
-  const get_new_id = "SELECT OinksDB.generate_new_id( 2 ) AS new_id;";
+  const get_new_id = "SELECT OinkerDB.generate_new_id( 2 ) AS new_id;";
   const [out_id,out_id_fields] = await sqlPool.query( get_new_id );
 
   const addOinkQuery = "INSERT INTO oinks " +
@@ -99,11 +99,16 @@ app.post( '/new_oink', async function(req,res) {
   }));
 });
 
-app.get( '/oinks', function(req,res) {
+app.get( '/oinks', async function(req,res) {
   console.log( "Oinks get request received." );
-  res.send( JSON.stringify({
-    oink: "yes"
-  }));
+
+  const get_oinks_query = "SELECT * FROM oinks LIMIT 200";
+  const [oinks_rows,oinks_fields] = await sqlPool.query( get_oinks_query );
+
+
+  res.send( JSON.stringify(
+    oinks_rows
+  ));
 });
 
 app.listen( 3000 );
