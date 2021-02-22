@@ -6,6 +6,8 @@ window.addEventListener( 'load', (event)=> {
   render_timeline( fake_data.oinks );
   render_whats_happening( fake_data.news );
   attach_to_new_oink();
+
+  request_oinks();
 });
 
 function attach_to_new_oink() {
@@ -139,4 +141,16 @@ function render_whats_happening( news ) {
 
   const opt_container = document.getElementById("news_items_container");
   opt_container.innerHTML = dom;
+}
+
+async function request_oinks() {
+  fetch( 'http://34.209.84.105:3000/oinks',
+    {
+      method: 'GET'
+    }
+  )
+    .then( response => response.json() )
+    .then( json => {
+      console.dir( json );
+    });
 }
