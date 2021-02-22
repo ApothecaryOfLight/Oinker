@@ -154,3 +154,11 @@ async function request_oinks() {
       console.dir( json );
     });
 }
+
+async function attempt_login() {
+
+}
+
+async function attempt_create_account() {
+
+}
