@@ -8,7 +8,17 @@ window.addEventListener( 'load', (event)=> {
   attach_to_new_oink();
 
   request_oinks();
+
+  launch_login_interface();
 });
+
+function launch_oink_interface() {
+  const root_interface = document.getElementById("root_container");
+  const login_interface = document.getElementById("login_interface");
+  root_interface.style.display = "grid";
+  login_interface.style.display = "none";
+  attach_to_new_oink();
+}
 
 function attach_to_new_oink() {
   const new_oink_message = document.getElementById("new_oink_message");
@@ -155,10 +165,65 @@ async function request_oinks() {
     });
 }
 
-async function attempt_login() {
-
+function launch_login_interface() {
+  const root_interface = document.getElementById("root_container");
+  const login_interface = document.getElementById("login_interface");
+  root_interface.style.display = "none";
+  login_interface.style.display = "flex";
+  attach_login();
 }
 
-async function attempt_create_account() {
+function attach_login() {
+  const login_button = document.getElementById("button_login");
+  const create_account_button = document.getElementById("button_create_account");
+  login_button.addEventListener( 'click', (event) => {
+    const username_field = document.getElementById("username_field");
+    const password_field = document.getElementById("password_field");
+    console.log( "Attempting login!" );
+    console.log( username_field.value + "/" + password_field.value );
+    attempt_login( username_field.value, password_field.value );
+  });
+  create_account_button.addEventListener( 'click', (event) => {
+    console.log( "Attempting create account!" );
+    attempt_create_account( username_field.value, password_field.value );
+  });
+}
 
+async function attempt_login( inUsername, inPassword ) {
+  fetch( 'http://34.209.84.105:3000/attempt_login',
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        "username_hash": md5(inUsername),
+        "password_hash": md5(inPassword),
+        "username_plaintext": inUsername
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  ).then( response => response.json() )
+  .then( json => {
+    console.dir( json );
+    launch_oink_interface();
+  });
+}
+
+async function attempt_create_account( inUsername, inPassword ) {
+  fetch( 'http://34.209.84.105:3000/attempt_create_account',
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        "username_hash": md5(inUsername),
+        "password_hash": md5(inPassword),
+        "username_plaintext": inUsername
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  ).then( response => response.json() )
+  .then( json => {
+    console.dir( json );
+  });
 }

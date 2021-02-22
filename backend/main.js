@@ -11,17 +11,58 @@ const sqlPool = mysql.createPoolPromise({
   host: 'localhost',
   user: 'Oinker_User',
   password: 'Oinker_Password',
-  database: 'Oinker',
+  database: 'OinkerDB',
   connectionLimit: 50
 });
 
 
-app.post('/login', function(req,res) {
-
+app.post('/attempt_login', async function(req,res) {
+  try {
+    const login_query = "SELECT password_hash FROM users WHERE " +
+      "username_hash = \'" + req.body.username_hash + "\';"
+    const [login_row,login_field] = await sqlPool.query( login_query );
+    const password_hash = String.fromCharCode.apply(null, login_row[0].password_hash);
+    if( password_hash == req.body.password_hash ) {
+      res.send( JSON.stringify({
+        "result": "approve",
+        "username_hash": req.body.username_hash,
+        "username_plaintext": req.body.username_plaintext
+      }));
+    } else {
+      res.send( JSON.stringify({
+        "result": "refused",
+        "reason": "Credentials failed to authenticate!",
+      }));
+    }
+  } catch( error ) {
+    console.log( error );
+    res.send( JSON.stringify({
+      "result": "refused",
+      "reason": "Unspecified."
+    }));
+  }
 });
 
-app.post('/create_account', function(req,res) {
-
+app.post('/attempt_create_account', async function(req,res) {
+  try {
+    const create_acct_query = "INSERT INTO users " +
+      "( username_hash, password_hash )" +
+      " VALUES ( \'" + req.body.username_hash + "\'," +
+      " \'" + req.body.password_hash + "\');";
+    const [create_acct_row, create_acct_field] =
+      await sqlPool.query( create_acct_query );
+    res.send( JSON.stringify({
+      "result": "approve",
+      "username_hash": req.body.username_hash,
+      "username_plaintext": req.body.username_plaintext
+    }));
+  } catch( error ) {
+    console.log( error );
+    res.send( JSON.stringify({
+      "result": "error",
+      "error_message": "Unspecified error attempting to create account."
+    }));
+  }
 });
 
 
