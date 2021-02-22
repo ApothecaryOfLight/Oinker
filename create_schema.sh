@@ -8,6 +8,12 @@ echo "CREATE TABLE oinks( oink_id INT, PRIMARY KEY(oink_id), username_hash VARBI
 echo "CREATE USER IF NOT EXISTS 'Oinker_User'@'localhost' IDENTIFIED BY 'Oinker_Password';" >> "create_schema.sql"
 echo "GRANT ALL ON OinkerDB.* TO 'Oinker_User'@'localhost';" >> "create_schema.sql"
 
+echo "CREATE TABLE sequence_last( sequence_id TINYINT, last BIGINT NOT NULL );" >> create_schema.sql
+echo "CREATE TABLE sequence_retired( sequence_id TINYINT, retired_id BIGINT NOT NULL );" >> create_schema.sql
+echo "INSERT INTO sequence_last (sequence_id,last) VALUES (0,0);" >> create_schema.sql
+echo "INSERT INTO sequence_last (sequence_id,last) VALUES (1,0);" >> create_schema.sql
+echo "INSERT INTO sequence_last (sequence_id,last) VALUES (2,0);" >> create_schema.sql
+
 echo "DELIMITER %%" >> create_schema.sql
 echo "CREATE FUNCTION OinkerDB.generate_new_id( in_sequence_id TINYINT )" >> create_schema.sql
 echo "RETURNS BIGINT" >> create_schema.sql
