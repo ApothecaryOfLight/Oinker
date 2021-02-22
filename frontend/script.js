@@ -17,7 +17,6 @@ function attach_to_new_oink() {
     }
   };
   new_oink_message.onclick = (event) => {
-console.dir( new_oink_message );
     if( new_oink_message.innerText == "What's happening?" ) {
       let range = document.createRange();
       let sel = window.getSelection();
