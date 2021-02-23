@@ -3,11 +3,7 @@
 console.log( "Yipee!" );
 
 window.addEventListener( 'load', (event)=> {
-  //render_timeline( fake_data.oinks );
   render_whats_happening( fake_data.news );
-  //attach_to_new_oink();
-
-  //request_oinks();
 
   launch_login_interface();
 });
@@ -89,62 +85,16 @@ function send_new_oink() {
 
 
 let fake_data = {
-  oinks : [
-    {
-      username: "Tom",
-      message: "This is Tom\'s first oink!"
-    },
-    {
-      username: "Sandy",
-      message: "And this is Sandy\'s first oink!"
-    },
-    {
-      username: "Tom",
-      message: "Second oink!"
-    },
-    {
-      username: "Sandy",
-      message: "Right!?"
-    },
-    {
-      username: "Tom",
-      message: "So cool."
-    },
-    {
-      username: "Sandy",
-      message: "so great! Adorable piggy!"
-    },
-    {
-      username: "Sandy",
-      message: "I'm all about this piggy."
-    },
-    {
-      username: "Tom",
-      message: "Piggy forever!"
-    },
-    {
-      username: "Sandy",
-      message: "Oinkus amoungstus!"
-    },
-    {
-      username: "Tom",
-      message: "I'm making this pig my religion."
-    },
-    {
-      username: "Sandy",
-      message: "That might be too much."
-    }
-  ],
   news : [
     {
       topic: "Science",
       headline: "Another Rover on Mars",
-      message: "Nerds Argue About GNU vs Linux"
+      message: "Chastisements Abound About Distinction Between GNU and Linux"
     },
     {
       topic: "Entertainment",
-      headline: "DC Movies Continue to Suck",
-      message: "Watch Wandavision! Hahnaissance time!"
+      headline: "DC Movies Continue to Be Bad",
+      message: "Watch Wandavision! Hahnaissance time! Who would've thought?"
     },
     {
       topic: "Crime",
@@ -153,8 +103,8 @@ let fake_data = {
     },
     {
       topic: "Politics",
-      headline: "US Right Wingers Continue to Confuse Freedom with Whatever-The-Hell-I-Want",
-      message: "Performative anti-mask and other pro-plague behaviors continue to endanger world at large as US variants surge. Yet again, this reporter must ask: why is my country so selfish and stupid?"
+      headline: "Miracle Vaccines Eeyored",
+      message: "Preventing 100% of serious disease not enough, say insane people."
     }
   ]
 }
@@ -234,10 +184,14 @@ function render_timeline( inTimeline ) {
   main_container.innerHTML = div;
 }
 
+function not_imp_yet() {
+  alert( "Not implemented yet." );
+}
+
 function render_whats_happening( news ) {
   let dom = "<div class=\"news_items_title\">What\'s Happening</div>";
   for( const news_item in news ) {
-    dom += "<div class=\"news_item_container\">" +
+    dom += "<div onclick=\"not_imp_yet()\" class=\"news_item_container\">" +
       "<div class=\"news_item_topic\">" + news[news_item].topic + "</div>" +
       "<div class=\"news_item_headline\">" + news[news_item].headline + "</div>" +
       "<div class=\"news_item_message\">" + news[news_item].message + "</div>" +
