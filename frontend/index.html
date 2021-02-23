@@ -47,23 +47,29 @@
         </div>
         <span class="menu_text">Home</span>
       </div>
-      <div id="menu_button_notification" class="menu_button">
+      <!--div id="menu_button_notification" class="menu_button">
         <div id="menu_icon_notification" class="material-icons md-42 unselectable">
           notifications
         </div>
         <span class="menu_text">Notifications</span>
-      </div>
+      </div-->
       <div id="menu_button_email" class="menu_button">
         <div id="menu_icon_email" class="material-icons md-42 unselectable">
           email
         </div>
         <span class="menu_text">Messages</span>
       </div>
-      <div id="menu_button_search" class="menu_button">
+      <!--div id="menu_button_search" class="menu_button">
         <div id="menu_icon_search" class="material-icons md-42 unselectable">
           search
         </div>
         <span class="menu_text">Search</span>
+      </div-->
+      <div id="menu_button_profile" class="menu_button">
+        <div id="menu_icon_profile" class="material-icons md-42 unselectable">
+          portrait
+        </div>
+        <span class="menu_text">Profile</span>
       </div>
       <div id="menu_button_new_oink">
         <span id="menu_icon_new_oink" class="material-icons md-42 unselectable">
@@ -91,13 +97,38 @@
         <div id="timeline_container">
         </div>
       </div>
-      <div id="notifcation_container"></div>
-      <div id="messages_container"></div>
+      <!--div id="notifcation_container">Notifications</div-->
+      <div id="messages_container">Messages</div>
+      <div id="profile_container">
+        Profile
+        <button id="launch_profile_button">Edit Profile</button>
+      </div>
     </div>
     <div id="opt_container">
       <div id="news_items_container"></div>
     </div>
     <div id="right_padding" class="page_padding"></div>
+  </div>
+  <div id="modal_background">
+    <div id="edit_profile_modal">
+      <div id="edit_profile_modal_title_bar">
+        <div id="edit_profile_modal_exit_button">X</div>
+        Edit profile
+        <div id="edit_profile_modal_save_button">Save</div>
+      </div>
+      <div id="edit_profile_modal_images">
+        <div id="edit_profile_modal_background"></div>
+        <div id="edit_profile_modal_icon"></div>
+      </div>
+      <div id="edit_profile_modal_field_container">
+        <div id="edit_profile_modal_field_nym"></div>
+        <div id="edit_profile_modal_field_bio"></div>
+        <div id="edit_profile_modal_field_location"></div>
+        <div id="edit_profile_modal_field_website"></div>
+      </div>
+    </div>
+    <div id="new_oink_modal">
+    </div>
   </div>
 </body>
 </html>

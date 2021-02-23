@@ -14,7 +14,70 @@ function launch_oink_interface() {
   root_interface.style.display = "grid";
   login_interface.style.display = "none";
   attach_to_new_oink();
+  attach_menu_buttons();
+  attach_profile_buttons();
   request_oinks();
+}
+
+function attach_profile_buttons() {
+  const launch_profile_button = document.getElementById("launch_profile_button");
+  launch_profile_button.addEventListener( 'click', (click) => {
+    const profile_modal = document.getElementById("modal_background");
+    profile_modal.style.display = "flex";
+    attach_edit_profile_buttons();
+  });
+}
+
+function attach_edit_profile_buttons() {
+  const exit_profile_modal_button = document.getElementById("edit_profile_modal_exit_button");
+  exit_profile_modal_button.addEventListener( 'click', (click) => {
+    const profile_modal = document.getElementById("modal_background");
+    profile_modal.style.display = "none";
+  });
+}
+
+function set_container( inContainerName ) {
+  const container_names = [
+    "home_container",
+    "messages_container",
+    "profile_container"
+  ];
+  container_names.forEach( name => {
+console.log( name );
+    const container = document.getElementById(name);
+    if( inContainerName == name ) {
+      container.style.display = "block";
+    } else {
+      container.style.display = "none";
+    }
+  });
+}
+
+function attach_menu_buttons() {
+  const menu_home = document.getElementById("menu_button_home");
+//  const menu_notification = document.getElementById("menu_button_notification");
+  const menu_email = document.getElementById("menu_button_email");
+//  const menu_search = document.getElementById("menu_button_search");
+  const menu_profile = document.getElementById("menu_button_profile");
+  const menu_new_oink = document.getElementById("menu_button_new_oink");
+  menu_home.addEventListener( 'click', (click) => {
+    set_container( "home_container" );
+  });
+/*  menu_notification.addEventListener( 'click', (click) => {
+    not_imp_yet();
+  });*/
+  menu_email.addEventListener( 'click', (click) => {
+    not_imp_yet();
+  });
+/*  menu_search.addEventListener( 'click', (click) => {
+    not_imp_yet();
+  });*/
+  menu_profile.addEventListener( 'click', (click) => {
+    set_container( "profile_container" );
+  });
+  menu_new_oink.addEventListener( 'click', (click) => {
+    not_imp_yet();
+  });
 }
 
 function attach_to_new_oink() {
@@ -48,18 +111,18 @@ function send_new_oink() {
   const new_oink_text = new_oink_field.innerText;
 
   const timestamp_raw = new Date(Date.now());
-  console.log( timestamp_raw );
+  //console.log( timestamp_raw );
   const timestamp_string = timestamp_raw.toISOString();
-  console.log( timestamp_string );
+  //console.log( timestamp_string );
   const date = timestamp_string.substr( 0, 10 );
-  console.log( date );
+  //console.log( date );
   const time = timestamp_string.substr( 11, 8 );
-  console.log( time );
+  //console.log( time );
   const clean_timestamp = date + " " + time;
-  console.log( clean_timestamp );
+  //console.log( clean_timestamp );
 
   if( new_oink_text != "What's happening?" ) {
-    console.log( new_oink_text );
+    //console.log( new_oink_text );
     fetch( 'http://34.209.84.105:3000/new_oink',
     {
       method: 'POST',
@@ -75,7 +138,7 @@ function send_new_oink() {
     }
   ).then( response => response.json() )
   .then( json => {
-    console.dir( json );
+    //console.dir( json );
     new_oink_field.innerHTML = "What's happening?";
       new_oink_field.style.color = "#80808066";
     request_oinks();
@@ -211,7 +274,7 @@ async function request_oinks() {
   )
     .then( response => response.json() )
     .then( json => {
-      console.dir( json );
+      //console.dir( json );
       render_timeline( json );
     });
 }
@@ -231,7 +294,7 @@ function attach_login() {
     const username_field = document.getElementById("username_field");
     const password_field = document.getElementById("password_field");
     console.log( "Attempting login!" );
-    console.log( username_field.value + "/" + password_field.value );
+    //console.log( username_field.value + "/" + password_field.value );
     attempt_login( username_field.value, password_field.value );
   });
   create_account_button.addEventListener( 'click', (event) => {
@@ -262,7 +325,7 @@ async function attempt_login( inUsername, inPassword ) {
     }
   ).then( response => response.json() )
   .then( json => {
-    console.dir( json );
+    //console.dir( json );
     global.logged = true;
     global.username_hash = md5(inUsername);
     global.username_plaintext = inUsername;
@@ -285,7 +348,7 @@ async function attempt_create_account( inUsername, inPassword ) {
     }
   ).then( response => response.json() )
   .then( json => {
-    console.dir( json );
+    //console.dir( json );
     global.logged = true;
     global.username_hash = md5(inUsername);
     global.username_plaintext = inUsername;
@@ -298,13 +361,16 @@ function request_update() {
   delayed = window.setTimeout( request_oinks, 500 );
 }
 window.addEventListener( 'mousemove', (event) => {
-  console.log( "mouse moving" );
   if( global.logged == true ) {
     const now = Date.now();
     if( now - global.last_get > 5000 ) {
-      console.log( "Been too long!" );
       request_oinks();
     }
   }
 });
 //request_oinks
+
+
+function launch_edit_profile_modal() {
+
+}

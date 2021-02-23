@@ -270,6 +270,9 @@ body {
   border-left: 1px #99996633 solid;
   border-right: 1px #99996633 solid;
 }
+.oink:hover {
+  background: #80808066;
+}
 
 .oink_icon_container {
   disaply: flex;
@@ -436,4 +439,39 @@ body {
 }
 .login_input:focus {
   background: #FF66CC;
+}
+
+#modal_background {
+  background: #00000044;
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+#edit_profile_modal {
+  width: 60%;
+  height: 70%;
+  background: white;
+  border-radius: 16px;
+}
+
+#edit_profile_modal_title_bar {
+  display: flex;
+  flex-direciton: row;
+}
+#edit_profile_modal_exit_button {
+  color: pink;
+  font-size: 2em;
+}
+#edit_profile_modal_save_button {
+  background: pink;
+  color: white;
+  border-radius: 22px;
+  font-size: 1.5em;
+  padding: .4em;
 }
