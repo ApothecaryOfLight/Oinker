@@ -80,6 +80,8 @@ function send_new_oink() {
   ).then( response => response.json() )
   .then( json => {
     console.dir( json );
+    new_oink_field.innerHTML = "What's happening?";
+      new_oink_field.style.color = "#80808066";
     request_oinks();
   });
   }
