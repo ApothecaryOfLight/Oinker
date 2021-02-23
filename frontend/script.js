@@ -3,7 +3,7 @@
 console.log( "Yipee!" );
 
 window.addEventListener( 'load', (event)=> {
-  render_timeline( fake_data.oinks );
+  //render_timeline( fake_data.oinks );
   render_whats_happening( fake_data.news );
   //attach_to_new_oink();
 
@@ -156,6 +156,52 @@ let fake_data = {
   ]
 }
 
+function timestampToString( then ) {
+  const now_raw = new Date(Date.now());
+  const now = now_raw.toISOString();
+  const simple_date = then.substr(0, 5);
+
+  const then_year = then.substr( 0, 4 );
+  const then_month = then.substr( 5, 2 );
+  const then_day = then.substr( 8, 2 );
+  const then_hour = then.substr( 11, 2 );
+  const then_minute = then.substr( 14, 2 );
+
+  const now_year = now.substr( 0, 4 );
+  const now_month = now.substr( 5, 2 );
+  const now_day = now.substr( 8, 2 );
+  const now_hour = now.substr( 11, 2 );
+  const now_minute = now.substr( 14, 2 );
+
+  const diff_year = now_year - then_year;
+  const diff_month = now_month - then_month;
+  const diff_day = now_day - then_day;
+  const diff_hour = now_hour - then_hour;
+  const diff_minute = now_minute - then_minute;
+
+  const packed_date = new Date(then);
+
+  var opt = { month: 'short', day: 'numeric' };
+  const short_date = new Date(then).toLocaleDateString( 'en-US', opt );
+
+  opt = { month: 'short', day: 'numeric', year: 'numeric' };
+  const long_date = new Date(then).toLocaleDateString( 'en-US', opt );
+
+  if( diff_year >= 1 ) {
+    return( long_date );
+  } else if( diff_month >= 1 ) {
+    return( short_date );
+  } else if( diff_day >= 1 ) {
+    return( short_date );
+  } else if( diff_hour >= 1 ) {
+    return( diff_hour +  "h" );
+  } else if( diff_minute >= 1 ) {
+    return( diff_minute + "m" );
+  } else {
+    return( "Now" );
+  }
+}
+
 function render_timeline( inTimeline ) {
   let div = "";
   for( const oink in inTimeline ) {
@@ -167,7 +213,9 @@ function render_timeline( inTimeline ) {
         "<div class=\"oink_name_container\">" +
           "<div class=\"oink_nym\">" + inTimeline[oink].username_plaintext + "</div>" +
           "<div class=\"oink_name_id\"></div>" +
-          "<div class=\"oink_time\"></div>" +
+          "<div class=\"oink_time\">&nbsp;&#x22C5;&nbsp;" +
+            timestampToString( inTimeline[oink].timestamp ) +
+          "</div>" +
         "</div>" +
         "<div class=\"oink_message_container\">" +
           "<div class=\"oink_message\">" +
@@ -175,7 +223,8 @@ function render_timeline( inTimeline ) {
           "</div>" +
           "<div class=\"oink_button_container\">" + "buttons here" + "</div>" +
         "</div>" +
-      "</div>"
+      "</div>";
+    timestampToString( inTimeline[oink].timestamp );
   }
 
   const main_container = document.getElementById("timeline_container");
