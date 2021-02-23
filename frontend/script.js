@@ -80,6 +80,7 @@ function send_new_oink() {
   ).then( response => response.json() )
   .then( json => {
     console.dir( json );
+    request_oinks();
   });
   }
 }
@@ -246,6 +247,7 @@ function render_whats_happening( news ) {
 }
 
 async function request_oinks() {
+  global.last_get = Date.now();
   fetch( 'http://34.209.84.105:3000/oinks',
     {
       method: 'GET'
@@ -283,8 +285,10 @@ function attach_login() {
 }
 
 const global = {
+  logged: false,
   username_hash: "",
-  username_plaintext: ""
+  username_plaintext: "",
+  last_get: ""
 }
 
 async function attempt_login( inUsername, inPassword ) {
@@ -303,6 +307,7 @@ async function attempt_login( inUsername, inPassword ) {
   ).then( response => response.json() )
   .then( json => {
     console.dir( json );
+    global.logged = true;
     global.username_hash = md5(inUsername);
     global.username_plaintext = inUsername;
     launch_oink_interface();
@@ -325,8 +330,25 @@ async function attempt_create_account( inUsername, inPassword ) {
   ).then( response => response.json() )
   .then( json => {
     console.dir( json );
+    global.logged = true;
     global.username_hash = md5(inUsername);
     global.username_plaintext = inUsername;
     launch_oink_interface();
   });
 }
+
+var delay;
+function request_update() {
+  delayed = window.setTimeout( request_oinks, 500 );
+}
+window.addEventListener( 'mousemove', (event) => {
+  console.log( "mouse moving" );
+  if( global.logged == true ) {
+    const now = Date.now();
+    if( now - global.last_get > 5000 ) {
+      console.log( "Been too long!" );
+      request_oinks();
+    }
+  }
+});
+//request_oinks

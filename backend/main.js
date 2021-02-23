@@ -99,10 +99,14 @@ app.post( '/new_oink', async function(req,res) {
   }));
 });
 
+//NB: ORDER BY on timestamp is unacceptably inefficient.
+//Indexing is required to solve this problem: indexing by topic,
+//indexing by following, indexing by popularity, indexing by
+//machine learning. Beyond the scope of this project, currently.
 app.get( '/oinks', async function(req,res) {
   console.log( "Oinks get request received." );
 
-  const get_oinks_query = "SELECT * FROM oinks LIMIT 200";
+  const get_oinks_query = "SELECT * FROM oinks ORDER BY timestamp DESC LIMIT 200";
   const [oinks_rows,oinks_fields] = await sqlPool.query( get_oinks_query );
 
 
