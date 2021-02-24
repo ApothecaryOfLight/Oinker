@@ -289,8 +289,8 @@ body {
 .oink_icon {
   border-radius: 50%;
   background: purple;
-  width: 60%;
-  height: 60%;
+  width: 3em;
+  height: 3em;
   margin-top: .75em;
   margin-left: .75em;
 }
@@ -474,4 +474,12 @@ body {
   border-radius: 22px;
   font-size: 1.5em;
   padding: .4em;
+}
+#edit_profile_icon {
+  width: 2em;
+  height: 2em;
+}
+
+#profile_container {
+  display: none;
 }

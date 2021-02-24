@@ -17,6 +17,22 @@ function launch_oink_interface() {
   attach_menu_buttons();
   attach_profile_buttons();
   request_oinks();
+  request_icon();
+}
+
+function request_icon() {
+console.log( "request_icon" );
+  fetch( 'http://34.209.84.105:3000/icon_request/' + global.icon_id,
+    {
+      method: 'GET'
+    }
+  ).then( response => response.json() )
+  .then( json => {
+    console.log( "Setting icon data." );
+    console.dir( json );
+    //TODO: Set poster icon here.
+    global.user_icon = json.icon_data;
+  });
 }
 
 function attach_profile_buttons() {
@@ -25,6 +41,8 @@ function attach_profile_buttons() {
     const profile_modal = document.getElementById("modal_background");
     profile_modal.style.display = "flex";
     attach_edit_profile_buttons();
+    launch_edit_profile_modal();
+
   });
 }
 
@@ -33,6 +51,59 @@ function attach_edit_profile_buttons() {
   exit_profile_modal_button.addEventListener( 'click', (click) => {
     const profile_modal = document.getElementById("modal_background");
     profile_modal.style.display = "none";
+  });
+
+  const edit_profile_upload_icon = document.getElementById("upload_icon");
+  edit_profile_upload_icon.addEventListener( 'click', (click) => {
+    console.log( "upload icon." );
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.onchange = e => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL( file );
+      reader.onload = readerEvent => {
+        console.dir( readerEvent );
+//        console.log( "Size: " + readerEvent.total/1000 + "kb" );
+        const size = readerEvent.total/1000000;
+//        console.log( size + "kb" );
+        console.log( size + "mb" );
+        if( size > 15 ) {
+          alert("Image too large! 16mb limit." );
+          return;
+        }
+        const mime_type = readerEvent.srcElement.result.substr(
+          5,
+          readerEvent.srcElement.result.indexOf(";")-5
+        );
+//        console.log( mime_type );
+
+        const content = readerEvent.target.result;
+        const pos = readerEvent.target.result.indexOf( "," );
+        const data = content.substr( pos+1 );
+//        const image = document.getElementById("edit_profile_icon");
+//        image.src = "data:" + mime_type + ";base64," + data;
+
+        fetch( 'http://34.209.84.105:3000/upload_icon',
+          {
+            method: 'POST',
+            body: JSON.stringify({
+              "icon_id": global.icon_id,
+              "icon_data" : ("data:" + mime_type + ";base64," + data)
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        ).then( response => response.json() )
+        .then( json => {
+          const image = document.getElementById("edit_profile_icon");
+          image.src = json.icon_data;
+//          console.dir( json.icon_data );
+        });
+      }
+    };
+    input.click();
   });
 }
 
@@ -130,7 +201,8 @@ function send_new_oink() {
         username_hash: global.username_hash,
         username_plaintext: global.username_plaintext,
         text_content: new_oink_text,
-        timestamp: clean_timestamp
+        timestamp: clean_timestamp,
+        icon_id: global.icon_id
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -218,29 +290,42 @@ function timestampToString( then ) {
   }
 }
 
+function get_icon_place( icon_id, icons_obj ) {
+  for( let icon_place in icons_obj ) {
+    if( icons_obj[icon_place].icon_id == icon_id ) {
+      return icon_place;
+    }
+  }
+}
+
 function render_timeline( inTimeline ) {
   let div = "";
-  for( const oink in inTimeline ) {
+  for( const oink in inTimeline.oinks ) {
+    const icon_place = get_icon_place( inTimeline.oinks[oink].icon_id, inTimeline.icons );
+    let oink_data = "favicon.ico";
+    if( inTimeline.icons != null ) {
+      oink_data = inTimeline.icons[icon_place].icon_blob_data;
+    }
     div +=
       "<div class=\"oink\">" +
         "<div class=\"oink_icon_container\"><div class=\"oink_icon\">" +
-          "image" +
+          "<img class=\"oink_icon\" src=\"" + oink_data + "\"\>" +
         "</div></div>" +
         "<div class=\"oink_name_container\">" +
-          "<div class=\"oink_nym\">" + inTimeline[oink].username_plaintext + "</div>" +
+          "<div class=\"oink_nym\">" + inTimeline.oinks[oink].username_plaintext + "</div>" +
           "<div class=\"oink_name_id\"></div>" +
           "<div class=\"oink_time\">&nbsp;&#x22C5;&nbsp;" +
-            timestampToString( inTimeline[oink].timestamp ) +
+            timestampToString( inTimeline.oinks[oink].timestamp ) +
           "</div>" +
         "</div>" +
         "<div class=\"oink_message_container\">" +
           "<div class=\"oink_message\">" +
-            inTimeline[oink].text_content +
+            inTimeline.oinks[oink].text_content +
           "</div>" +
           "<div class=\"oink_button_container\">" + "buttons here" + "</div>" +
         "</div>" +
       "</div>";
-    timestampToString( inTimeline[oink].timestamp );
+    timestampToString( inTimeline.oinks[oink].timestamp );
   }
 
   const main_container = document.getElementById("timeline_container");
@@ -307,7 +392,9 @@ const global = {
   logged: false,
   username_hash: "",
   username_plaintext: "",
-  last_get: ""
+  last_get: "",
+  icon_id: null,
+  icon_data: null
 }
 
 async function attempt_login( inUsername, inPassword ) {
@@ -326,10 +413,15 @@ async function attempt_login( inUsername, inPassword ) {
   ).then( response => response.json() )
   .then( json => {
     //console.dir( json );
-    global.logged = true;
-    global.username_hash = md5(inUsername);
-    global.username_plaintext = inUsername;
-    launch_oink_interface();
+    if( json.result == "approve" ) {
+      global.logged = true;
+      global.username_hash = md5(inUsername);
+      global.username_plaintext = inUsername;
+      global.icon_id = json.icon_id;
+      launch_oink_interface();
+    } else {
+      alert( json.error_message );
+    }
   });
 }
 
@@ -349,10 +441,15 @@ async function attempt_create_account( inUsername, inPassword ) {
   ).then( response => response.json() )
   .then( json => {
     //console.dir( json );
-    global.logged = true;
-    global.username_hash = md5(inUsername);
-    global.username_plaintext = inUsername;
-    launch_oink_interface();
+    if( json.result == "approve" ) {
+      global.logged = true;
+      global.username_hash = md5(inUsername);
+      global.username_plaintext = inUsername;
+      global.icon_id = json.icon_id;
+      launch_oink_interface();
+    } else {
+      alert( json.error_message );
+    }
   });
 }
 
@@ -372,5 +469,9 @@ window.addEventListener( 'mousemove', (event) => {
 
 
 function launch_edit_profile_modal() {
-
+  console.log( "launch_edit_profile_modal" );
+  if( global.icon_id != null ) {
+    const image = document.getElementById("edit_profile_icon");
+    image.src = global.user_icon;
+  }
 }
