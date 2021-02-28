@@ -20,6 +20,18 @@ function launch_oink_interface() {
   request_icon();
 }
 
+function detach_new_oink() {
+
+}
+
+function detach_menu_buttons() {
+
+}
+
+function detach_profile_buttons() {
+
+}
+
 function request_icon() {
 console.log( "request_icon" );
   fetch( 'http://34.209.84.105:3000/icon_request/' + global.icon_id,
@@ -96,6 +108,7 @@ function attach_menu_buttons() {
   const menu_email = document.getElementById("menu_button_email");
   const menu_profile = document.getElementById("menu_button_profile");
   const menu_new_oink = document.getElementById("menu_button_new_oink");
+  const menu_logout = document.getElementById("menu_button_logout");
   menu_home.addEventListener( 'click', (click) => {
     set_container( "home_container" );
   });
@@ -109,6 +122,34 @@ function attach_menu_buttons() {
   menu_new_oink.addEventListener( 'click', (click) => {
     not_imp_yet();
   });
+  menu_logout.addEventListener( 'click', (click) => {
+    logout();
+  });
+}
+
+function logout() {
+  fetch( 'http://34.209.84.105:3000/logout',
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        "username_hash": global.username_hash
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  ).then( response => response.json() )
+  .then( json => {
+/*    if( json.result == "approve" ) {
+    } else {
+      alert( json.error_message );
+    }*/
+  });
+  global.logged = false;
+  global.username_hash = "";
+  global.username_plaintext = "";
+  global.icon_id = null;
+  launch_login_interface();
 }
 
 function attach_to_new_oink() {
@@ -346,6 +387,8 @@ function launch_login_interface() {
 function attach_login() {
   const login_button = document.getElementById("button_login");
   const create_account_button = document.getElementById("button_create_account");
+  document.getElementById("username_field").value = "";
+  document.getElementById("password_field").value = "";
   login_button.addEventListener( 'click', (event) => {
     const username_field = document.getElementById("username_field");
     const password_field = document.getElementById("password_field");
@@ -356,6 +399,10 @@ function attach_login() {
     console.log( "Attempting create account!" );
     attempt_create_account( username_field.value, password_field.value );
   });
+}
+
+function detach_login() {
+
 }
 
 const global = {
