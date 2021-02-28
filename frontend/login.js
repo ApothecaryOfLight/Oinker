@@ -80,3 +80,28 @@ async function attempt_create_account( inUsername, inPassword ) {
     }
   });
 }
+
+function logout() {
+  fetch( 'http://34.209.84.105:3000/logout',
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        "username_hash": global.username_hash
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  ).then( response => response.json() )
+  .then( json => {
+/*    if( json.result == "approve" ) {
+    } else {
+      alert( json.error_message );
+    }*/
+  });
+  global.logged = false;
+  global.username_hash = "";
+  global.username_plaintext = "";
+  global.icon_id = null;
+  launch_login_interface();
+}

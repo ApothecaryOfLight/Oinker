@@ -125,7 +125,7 @@ body {
     font-weight: bold;
   }
 }
-  /*New Oink Button*/
+/*New Oink Button*/
 #menu_button_new_oink {
   padding: 1em;
   border-radius: 50%;
@@ -382,66 +382,6 @@ body {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-}
-
-/*Login*/
-#login_interface {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#login_container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  border: 6px solid black;
-  border-radius: 22px;
-  padding: 1em;
-
-  font-size: 2em;
-  font-weight: bolder;
-}
-#username_field {
-  margin-top: 2em;
-}
-#password_field {
-  margin-top: 2em;  
-}
-#login_button_container {
-  margin-top: 1em;
-}
-#button_login {
-  
-}
-#button_create_account {
-  
-}
-.login_button {
-  outline: none;
-  border: 0px;
-  border-radius: 24px;
-  background: pink;
-  padding: 1em;
-  font-weight: bolder;
-}
-.login_button:hover {
-  background: #FF66CC;
-}
-.login_input {
-  outline: none;
-  border: 0px;
-  border-radius: 16px;
-  background: pink;
-  padding: 1em;
-}
-.login_input:hover {
-  background: #FF66CC;
-}
-.login_input:focus {
-  background: #FF66CC;
 }
 
 #modal_background {
