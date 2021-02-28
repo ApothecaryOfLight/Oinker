@@ -293,14 +293,3 @@ body {
 #upload_icon {
   position: absolute;
 }
-#profile_container {
-  display: none;
-  position: absolute;
-}
-#edit_profile_icon_selector {
-  position: absolute;
-  width: 2em;
-  height: 2em;
-  border: 5px solid black;
-  border-radius: 5px;
-}
