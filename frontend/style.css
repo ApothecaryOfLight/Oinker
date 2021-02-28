@@ -437,36 +437,3 @@ body {
   border: 5px solid black;
   border-radius: 5px;
 }
-
-#image_framing_modal {
-  display: none;
-  flex-direction: column;
-  width: 50%;
-  height: 50%;
-  border: 6px solid black;
-  position: absolute;
-  background: white;
-  border-radius: 16px;
-}
-#image_framing_modal_image_container {
-  height: 90%;
-/*  background: purple;*/
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#image_framing_modal_buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-.framing_image {
-  max-height: 100%;
-  max-width: 100%;
-}
-#image_frame {
-  width: 2em;
-  height: 2em;
-  border: 1px solid black;
-  position: absolute;
-}
