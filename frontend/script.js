@@ -33,22 +33,18 @@ function detach_profile_buttons() {
 }
 
 function request_icon() {
-console.log( "request_icon" );
   fetch( 'http://34.209.84.105:3000/icon_request/' + global.icon_id,
     {
       method: 'GET'
     }
   ).then( response => response.json() )
   .then( json => {
-    console.log( "Setting icon data." );
-    console.dir( json );
     //TODO: Set poster icon here.
     render_user_profile( json.icon_data );
   });
 }
 
 function render_user_profile( icon_data ) {
-  console.dir( icon_data );
   const test_profile = document.getElementById("new_oink_icon");
   test_profile.src = icon_data.icon_blob_data;
 
@@ -243,8 +239,6 @@ function get_icon_place( icon_id, icons_obj ) {
 }
 
 function render_icon_html( icons, icon_place ) {
-console.log( "render_icon_html" );
-  console.dir( icons[icon_place] );
   const profile_width = (icons[icon_place].zoom*icons[icon_place].width)/12.5;
   const profile_height = (icons[icon_place].zoom*icons[icon_place].height)/12.5;
   const profile_offset_x = icons[icon_place].offsetX/12.5;
@@ -256,8 +250,36 @@ console.log( "render_icon_html" );
     " margin-left : " + profile_offset_x + "px;" +
     " margin-right : " + profile_offset_y + "px;" +
     "\" src=\"" + icons[icon_place].icon_blob_data + "\"\>";
-  console.log( img_text );
   return img_text;
+}
+
+function render_delete_html( oink ) {
+  const username_hash =
+    String.fromCharCode.apply( null, oink.username_hash.data );
+  if( username_hash == global.username_hash ) {
+    const del_button = "<button onclick=\"delete_oink(" + oink.oink_id +
+      ")\">X</button>";
+    return del_button;
+  }
+}
+
+function delete_oink( oink_id ) {
+  console.log( "Sending delete to server for " + oink_id + "." );
+    fetch( 'http://34.209.84.105:3000/delete_oink',
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        "oink_id": oink_id
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  ).then( response => response.json() )
+  .then( json => {
+    //console.dir( json );
+    request_oinks();
+  });
 }
 
 function render_timeline( inTimeline ) {
@@ -268,7 +290,6 @@ function render_timeline( inTimeline ) {
     if( inTimeline.icons != null ) {
       oink_data = inTimeline.icons[icon_place].icon_blob_data;
     }
-console.dir( inTimeline.oinks[oink] );
     div +=
       "<div class=\"oink\">" +
         "<div class=\"oink_icon_container\">" +
@@ -280,6 +301,7 @@ console.dir( inTimeline.oinks[oink] );
           "<div class=\"oink_time\">&nbsp;&#x22C5;&nbsp;" +
             timestampToString( inTimeline.oinks[oink].timestamp ) +
           "</div>" +
+          render_delete_html( inTimeline.oinks[oink] ) +
         "</div>" +
         "<div class=\"oink_message_container\">" +
           "<div class=\"oink_message\">" +

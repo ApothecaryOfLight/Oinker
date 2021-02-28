@@ -161,6 +161,15 @@ app.post( '/new_oink', async function(req,res) {
   }));
 });
 
+app.post( '/delete_oink', async function(req,res) {
+  const delete_query = "DELETE FROM oinks WHERE oink_id=" +
+    req.body.oink_id + ";";
+  const [del_row,del_field] = await sqlPool.query( delete_query );
+  res.send( JSON.stringify({
+    result: "success"
+  }));
+});
+
 //NB: ORDER BY on timestamp is unacceptably inefficient.
 //Indexing is required to solve this problem: indexing by topic,
 //indexing by following, indexing by popularity, indexing by
