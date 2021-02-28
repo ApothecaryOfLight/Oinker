@@ -33,7 +33,7 @@ function launch_image_modal( inImageEventReference ) {
     alert("Image too large! 16mb limit." );
     return;
   }
-  
+
   //2) Get the mime type.
   const mime_type = inImageEventReference.srcElement.result.substr(
     5,
@@ -44,29 +44,29 @@ function launch_image_modal( inImageEventReference ) {
   const content = inImageEventReference.target.result;
   const pos = inImageEventReference.target.result.indexOf( "," );
   const data = content.substr( pos+1 );
-  
+
   //4) Make the modal visible.
   const modal = document.getElementById("edit_image_modal");
   modal.style.display = "flex";
-  
+
   //5) Set the image source.
   const image_container = document.getElementById("draggable_image");
   image_global.image_data = "data:" + mime_type + ";base64," + data;
   image_container.src = image_global.image_data;
   image_global.mime_ype = mime_type;
-  
+
   //6) Wait until the image is loaded to gurantee that the CSS will be calculated.
   image_container.onload = function() {
     //7) Attach event listeners to the image modal.
     attach_image_modal();
-    
+
     //8) Store the original image dimensions so we can preserve the aspect ratio.
     const draggable_image_real = window.getComputedStyle( draggable_image );
     const width_txt = draggable_image_real.getPropertyValue('width');
     const height_txt = draggable_image_real.getPropertyValue('height');
     image_global.width = width_txt.substr( 0, width_txt.length-2 );
     image_global.height = height_txt.substr( 0, height_txt.length-2 );
-    
+
     const slider = document.getElementById("framing_slider");
     image_global.zoom = (slider.value)/100;
     const zoom_width = ((slider.value)/100)*image_global.width;
@@ -75,7 +75,6 @@ function launch_image_modal( inImageEventReference ) {
     draggable_image.style.width = zoom_width + "px";
     draggable_image.style.height = zoom_height + "px";
   }
-  
 }
 
 const image_global = {
@@ -101,12 +100,12 @@ function attach_image_modal() {
   slider.addEventListener( 'mouseup', (click) => {
     image_global.slider_click = false;
   });
-  
+
   slider.addEventListener( 'mousemove', (unclick) => {
     if( image_global.slider_click == true ) {
-      
+
       const draggable_image = document.getElementById("draggable_image");
-      
+
       image_global.zoom = (slider.value)/100;
       const zoom_width = ((slider.value)/100)*image_global.width;
       const zoom_height = ((slider.value)/100)*image_global.height;
@@ -115,8 +114,7 @@ function attach_image_modal() {
       draggable_image.style.height = zoom_height + "px";
     }
   });
-  
-  
+
   //2) Attach move event.
   const lens = document.getElementById("lens");
   lens.addEventListener( 'mousedown', (click) => {
@@ -129,7 +127,6 @@ function attach_image_modal() {
   });
   document.addEventListener( 'mousemove', (move) => {
     if( image_global.move_click == true ) {
-      //console.dir( move );
       const draggable_image = document.getElementById("draggable_image");
       const offset_x = ((image_global.start_click_x - move.x)*-1)*2;
       const offset_y = ((image_global.start_click_y - move.y)*-1)*2;
@@ -139,12 +136,10 @@ function attach_image_modal() {
       image_global.offsetY = offset_y;
     }
   });
-  
-  
+
   const save_button = document.getElementById("save_button");
   save_button.addEventListener( 'click', (click) => {
     console.dir( image_global );
-    //test_image();
     send_profile_to_server();
     hide_image_modal();
   });
@@ -153,12 +148,12 @@ function attach_image_modal() {
 function render_profile_image( target_element ) {
   const test_profile = document.getElementById( target_element );
   test_profile.src = image_global.image_data;
-  
-  const profile_width = (image_global.zoom*image_global.width)/12.5;  
+
+  const profile_width = (image_global.zoom*image_global.width)/12.5;
   const profile_height = (image_global.zoom*image_global.height)/12.5;
   const profile_offset_x = image_global.offsetX/12.5;
   const profile_offset_y = image_global.offsetY/12.5;
-  
+
   test_profile.style.width = profile_width + "px";
   test_profile.style.height = profile_height + "px";
   test_profile.style['margin-left'] = profile_offset_x + "px";
@@ -187,8 +182,6 @@ function send_profile_to_server() {
   ).then( response => response.json() )
   .then( json => {
     //TODO: Non-success code.
-//    const image = document.getElementById("edit_profile_icon");
-//    image.src = image_global.image_data
     render_profile_image( "edit_profile_icon" );
   });
 }

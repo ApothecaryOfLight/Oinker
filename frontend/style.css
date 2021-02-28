@@ -208,12 +208,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-#new_oink_icon {
-/*  border-radius: 50%;
-  background: purple;
-  height: 100%;
-  width: 100%;*/
-}
 #new_oink_message_container {
   grid-column: 2;
   display: flex;

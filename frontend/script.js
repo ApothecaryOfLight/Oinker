@@ -31,7 +31,6 @@ console.log( "request_icon" );
     console.log( "Setting icon data." );
     console.dir( json );
     //TODO: Set poster icon here.
-    //global.user_icon = json.icon.icon_blob_data;
     render_user_profile( json.icon_data );
   });
 }
@@ -40,12 +39,12 @@ function render_user_profile( icon_data ) {
   console.dir( icon_data );
   const test_profile = document.getElementById("new_oink_icon");
   test_profile.src = icon_data.icon_blob_data;
-  
+
   const profile_width = (icon_data.zoom*icon_data.width)/12.5;
   const profile_height = (icon_data.zoom*icon_data.height)/12.5;
   const profile_offset_x = icon_data.offsetX/12.5;
   const profile_offset_y = icon_data.offsetY/12.5;
-  
+
   test_profile.style.width = profile_width + "px";
   test_profile.style.height = profile_height + "px";
   test_profile.style['margin-left'] = profile_offset_x + "px";
@@ -58,7 +57,6 @@ function attach_profile_buttons() {
     const profile_modal = document.getElementById("modal_background");
     profile_modal.style.display = "flex";
     attach_edit_profile_buttons();
-    //launch_edit_profile_modal();
   });
 }
 
@@ -73,51 +71,6 @@ function attach_edit_profile_buttons() {
   edit_profile_upload_icon.addEventListener( 'click', (click) => {
     console.log( "upload profile image" );
     select_image();
-/*    launch_image_framing_modal();
-return;
-    console.log( "upload icon." );
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.onchange = e => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL( file );
-      reader.onload = readerEvent => {
-        console.dir( readerEvent );
-        const size = readerEvent.total/1000000;
-        console.log( size + "mb" );
-        if( size > 15 ) {
-          alert("Image too large! 16mb limit." );
-          return;
-        }
-        const mime_type = readerEvent.srcElement.result.substr(
-          5,
-          readerEvent.srcElement.result.indexOf(";")-5
-        );
-
-        const content = readerEvent.target.result;
-        const pos = readerEvent.target.result.indexOf( "," );
-        const data = content.substr( pos+1 );
-
-        fetch( 'http://34.209.84.105:3000/upload_icon',
-          {
-            method: 'POST',
-            body: JSON.stringify({
-              "icon_id": global.icon_id,
-              "icon_data" : ("data:" + mime_type + ";base64," + data)
-            }),
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }
-        ).then( response => response.json() )
-        .then( json => {
-          const image = document.getElementById("edit_profile_icon");
-          image.src = json.icon_data;
-        });
-      }
-    };
-    input.click();*/
   });
 }
 
@@ -140,23 +93,16 @@ console.log( name );
 
 function attach_menu_buttons() {
   const menu_home = document.getElementById("menu_button_home");
-//  const menu_notification = document.getElementById("menu_button_notification");
   const menu_email = document.getElementById("menu_button_email");
-//  const menu_search = document.getElementById("menu_button_search");
   const menu_profile = document.getElementById("menu_button_profile");
   const menu_new_oink = document.getElementById("menu_button_new_oink");
   menu_home.addEventListener( 'click', (click) => {
     set_container( "home_container" );
   });
-/*  menu_notification.addEventListener( 'click', (click) => {
-    not_imp_yet();
-  });*/
   menu_email.addEventListener( 'click', (click) => {
     not_imp_yet();
   });
-/*  menu_search.addEventListener( 'click', (click) => {
-    not_imp_yet();
-  });*/
+
   menu_profile.addEventListener( 'click', (click) => {
     set_container( "profile_container" );
   });
@@ -196,18 +142,12 @@ function send_new_oink() {
   const new_oink_text = new_oink_field.innerText;
 
   const timestamp_raw = new Date(Date.now());
-  //console.log( timestamp_raw );
   const timestamp_string = timestamp_raw.toISOString();
-  //console.log( timestamp_string );
   const date = timestamp_string.substr( 0, 10 );
-  //console.log( date );
   const time = timestamp_string.substr( 11, 8 );
-  //console.log( time );
   const clean_timestamp = date + " " + time;
-  //console.log( clean_timestamp );
 
   if( new_oink_text != "What's happening?" ) {
-    //console.log( new_oink_text );
     fetch( 'http://34.209.84.105:3000/new_oink',
     {
       method: 'POST',
@@ -338,11 +278,9 @@ function render_timeline( inTimeline ) {
     if( inTimeline.icons != null ) {
       oink_data = inTimeline.icons[icon_place].icon_blob_data;
     }
-//render_icon_html( inTimeline.icons, icon_place );
     div +=
       "<div class=\"oink\">" +
         "<div class=\"oink_icon_container\">" +
-//          "<img class=\"oink_icon\" src=\"" + oink_data + "\"\>" +
           render_icon_html( inTimeline.icons, icon_place ) +
         "</div>" +
         "<div class=\"oink_name_container\">" +
@@ -491,121 +429,3 @@ window.addEventListener( 'mousemove', (event) => {
     }
   }
 });
-
-
-/*function launch_edit_profile_modal() {
-  console.log( "launch_edit_profile_modal" );
-}*/
-
-/*function render_framing_modal_icon() {
-  console.log( "render_framing_modal_icon" );
-  console.dir( global );
-  if( global.user_icon != null ) {
-    console.log( "yepp" );
-    const dom = "<img id=\"framed_image\" class=\"framing_image\" src=\"" + global.user_icon + "\">";
-    const image_container = document.getElementById("image_framing_modal_image_container" );
-    image_container.innerHTML = dom;
-    make_div_draggable();
-  }
-}*/
-
-/*const mouse_obj = {
-  start_click : {
-    x: null,
-    y: null
-  },
-  end_click: {
-    x: null,
-    y: null
-  },
-  isClicked: false
-}
-function make_div_draggable() {
-  const frame = document.getElementById("image_frame");
-  frame.addEventListener( 'mousedown', (click) => {
-    mouse_obj.isClicked = true;
-  });
-  document.addEventListener( 'mousemove', (move) => {
-    if( mouse_obj.isClicked == true ) {
-      console.dir( move );
-      console.dir( frame );
-      frame.style.left = move.offsetX + "px";
-      frame.style.top = move.offsetY + "px";
-    }
-  });
-  document.addEventListener( 'mouseup', (unclick) => {
-    mouse_obj.isClicked = false;
-  });
-}*/
-
-/*function launch_image_framing_modal() {
-  console.log( "launch_image_framing_modal" );
-  const image_framing_modal = document.getElementById("image_framing_modal");
-  image_framing_modal.style.display = "flex";
-  if( global.icon_data != null ) {
-    const dom = "<img class=\"framing_image\" src=\"" + global.user_icon + "\">";
-    const image_container = document.getElementById("image_framing_modal_image_container" );
-    image_container.innerHTML = dom;
-  }
-  attach_image_framing_modal_buttons();
-}*/
-
-/*function attach_image_framing_modal_buttons() {
-  const load = document.getElementById("load_image");
-  load.addEventListener('click', (click) => {
-    select_image();
-  });
-  const save = document.getElementById("save_image");
-  save.addEventListener( 'click', (click) => {
-    save_image();
-  });
-}*/
-
-/*function select_image() {
-  console.log( "upload icon." );
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.onchange = e => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL( file );
-    reader.onload = readerEvent => {
-      console.dir( readerEvent );
-      const size = readerEvent.total/1000000;
-      console.log( size + "mb" );
-      if( size > 15 ) {
-        alert("Image too large! 16mb limit." );
-        return;
-      }
-      const mime_type = readerEvent.srcElement.result.substr(
-        5,
-        readerEvent.srcElement.result.indexOf(";")-5
-      );
-      const content = readerEvent.target.result;
-      const pos = readerEvent.target.result.indexOf( "," );
-      const data = content.substr( pos+1 );
-      global.user_icon = "data:" + mime_type + ";base64," + data;
-      render_framing_modal_icon();
-    }
-  };
-  input.click();
-}*/
-
-/*function save_image() {
-  fetch( 'http://34.209.84.105:3000/upload_icon',
-   {
-     method: 'POST',
-     body: JSON.stringify({
-      "icon_id": global.icon_id,
-      "icon_data" : global.user_icon
-     }),
-     headers: {
-       'Content-Type': 'application/json'
-     }
-   }
- ).then( response => response.json() )
- .then( json => {
-   const image = document.getElementById("edit_profile_icon");
-   image.src = json.icon_data;
- });
-}*/
