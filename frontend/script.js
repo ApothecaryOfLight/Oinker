@@ -31,8 +31,25 @@ console.log( "request_icon" );
     console.log( "Setting icon data." );
     console.dir( json );
     //TODO: Set poster icon here.
-    global.user_icon = json.icon_data;
+    //global.user_icon = json.icon.icon_blob_data;
+    render_user_profile( json.icon_data );
   });
+}
+
+function render_user_profile( icon_data ) {
+  console.dir( icon_data );
+  const test_profile = document.getElementById("new_oink_icon");
+  test_profile.src = icon_data.icon_blob_data;
+  
+  const profile_width = (icon_data.zoom*icon_data.width)/12.5;
+  const profile_height = (icon_data.zoom*icon_data.height)/12.5;
+  const profile_offset_x = icon_data.offsetX/12.5;
+  const profile_offset_y = icon_data.offsetY/12.5;
+  
+  test_profile.style.width = profile_width + "px";
+  test_profile.style.height = profile_height + "px";
+  test_profile.style['margin-left'] = profile_offset_x + "px";
+  test_profile.style['margin-top'] = profile_offset_y + "px";
 }
 
 function attach_profile_buttons() {
@@ -41,8 +58,7 @@ function attach_profile_buttons() {
     const profile_modal = document.getElementById("modal_background");
     profile_modal.style.display = "flex";
     attach_edit_profile_buttons();
-    launch_edit_profile_modal();
-
+    //launch_edit_profile_modal();
   });
 }
 
@@ -55,6 +71,10 @@ function attach_edit_profile_buttons() {
 
   const edit_profile_upload_icon = document.getElementById("upload_icon");
   edit_profile_upload_icon.addEventListener( 'click', (click) => {
+    console.log( "upload profile image" );
+    select_image();
+/*    launch_image_framing_modal();
+return;
     console.log( "upload icon." );
     const input = document.createElement('input');
     input.type = 'file';
@@ -64,9 +84,7 @@ function attach_edit_profile_buttons() {
       reader.readAsDataURL( file );
       reader.onload = readerEvent => {
         console.dir( readerEvent );
-//        console.log( "Size: " + readerEvent.total/1000 + "kb" );
         const size = readerEvent.total/1000000;
-//        console.log( size + "kb" );
         console.log( size + "mb" );
         if( size > 15 ) {
           alert("Image too large! 16mb limit." );
@@ -76,13 +94,10 @@ function attach_edit_profile_buttons() {
           5,
           readerEvent.srcElement.result.indexOf(";")-5
         );
-//        console.log( mime_type );
 
         const content = readerEvent.target.result;
         const pos = readerEvent.target.result.indexOf( "," );
         const data = content.substr( pos+1 );
-//        const image = document.getElementById("edit_profile_icon");
-//        image.src = "data:" + mime_type + ";base64," + data;
 
         fetch( 'http://34.209.84.105:3000/upload_icon',
           {
@@ -99,11 +114,10 @@ function attach_edit_profile_buttons() {
         .then( json => {
           const image = document.getElementById("edit_profile_icon");
           image.src = json.icon_data;
-//          console.dir( json.icon_data );
         });
       }
     };
-    input.click();
+    input.click();*/
   });
 }
 
@@ -298,6 +312,24 @@ function get_icon_place( icon_id, icons_obj ) {
   }
 }
 
+function render_icon_html( icons, icon_place ) {
+console.log( "render_icon_html" );
+  console.dir( icons[icon_place] );
+  const profile_width = (icons[icon_place].zoom*icons[icon_place].width)/12.5;
+  const profile_height = (icons[icon_place].zoom*icons[icon_place].height)/12.5;
+  const profile_offset_x = icons[icon_place].offsetX/12.5;
+  const profile_offset_y = icons[icon_place].offsetY/12.5;
+  const img_text = "<img class=\"oink_icon\" " +
+    "style=\"" +
+    "width : " + profile_width + "px;" +
+    " height : " + profile_height + "px;" +
+    " margin-left : " + profile_offset_x + "px;" +
+    " margin-right : " + profile_offset_y + "px;" +
+    "\" src=\"" + icons[icon_place].icon_blob_data + "\"\>";
+  console.log( img_text );
+  return img_text;
+}
+
 function render_timeline( inTimeline ) {
   let div = "";
   for( const oink in inTimeline.oinks ) {
@@ -306,11 +338,13 @@ function render_timeline( inTimeline ) {
     if( inTimeline.icons != null ) {
       oink_data = inTimeline.icons[icon_place].icon_blob_data;
     }
+//render_icon_html( inTimeline.icons, icon_place );
     div +=
       "<div class=\"oink\">" +
-        "<div class=\"oink_icon_container\"><div class=\"oink_icon\">" +
-          "<img class=\"oink_icon\" src=\"" + oink_data + "\"\>" +
-        "</div></div>" +
+        "<div class=\"oink_icon_container\">" +
+//          "<img class=\"oink_icon\" src=\"" + oink_data + "\"\>" +
+          render_icon_html( inTimeline.icons, icon_place ) +
+        "</div>" +
         "<div class=\"oink_name_container\">" +
           "<div class=\"oink_nym\">" + inTimeline.oinks[oink].username_plaintext + "</div>" +
           "<div class=\"oink_name_id\"></div>" +
@@ -359,7 +393,6 @@ async function request_oinks() {
   )
     .then( response => response.json() )
     .then( json => {
-      //console.dir( json );
       render_timeline( json );
     });
 }
@@ -379,7 +412,6 @@ function attach_login() {
     const username_field = document.getElementById("username_field");
     const password_field = document.getElementById("password_field");
     console.log( "Attempting login!" );
-    //console.log( username_field.value + "/" + password_field.value );
     attempt_login( username_field.value, password_field.value );
   });
   create_account_button.addEventListener( 'click', (event) => {
@@ -412,7 +444,6 @@ async function attempt_login( inUsername, inPassword ) {
     }
   ).then( response => response.json() )
   .then( json => {
-    //console.dir( json );
     if( json.result == "approve" ) {
       global.logged = true;
       global.username_hash = md5(inUsername);
@@ -440,7 +471,6 @@ async function attempt_create_account( inUsername, inPassword ) {
     }
   ).then( response => response.json() )
   .then( json => {
-    //console.dir( json );
     if( json.result == "approve" ) {
       global.logged = true;
       global.username_hash = md5(inUsername);
@@ -453,10 +483,6 @@ async function attempt_create_account( inUsername, inPassword ) {
   });
 }
 
-var delay;
-function request_update() {
-  delayed = window.setTimeout( request_oinks, 500 );
-}
 window.addEventListener( 'mousemove', (event) => {
   if( global.logged == true ) {
     const now = Date.now();
@@ -465,13 +491,121 @@ window.addEventListener( 'mousemove', (event) => {
     }
   }
 });
-//request_oinks
 
 
-function launch_edit_profile_modal() {
+/*function launch_edit_profile_modal() {
   console.log( "launch_edit_profile_modal" );
-  if( global.icon_id != null ) {
-    const image = document.getElementById("edit_profile_icon");
-    image.src = global.user_icon;
+}*/
+
+/*function render_framing_modal_icon() {
+  console.log( "render_framing_modal_icon" );
+  console.dir( global );
+  if( global.user_icon != null ) {
+    console.log( "yepp" );
+    const dom = "<img id=\"framed_image\" class=\"framing_image\" src=\"" + global.user_icon + "\">";
+    const image_container = document.getElementById("image_framing_modal_image_container" );
+    image_container.innerHTML = dom;
+    make_div_draggable();
   }
+}*/
+
+/*const mouse_obj = {
+  start_click : {
+    x: null,
+    y: null
+  },
+  end_click: {
+    x: null,
+    y: null
+  },
+  isClicked: false
 }
+function make_div_draggable() {
+  const frame = document.getElementById("image_frame");
+  frame.addEventListener( 'mousedown', (click) => {
+    mouse_obj.isClicked = true;
+  });
+  document.addEventListener( 'mousemove', (move) => {
+    if( mouse_obj.isClicked == true ) {
+      console.dir( move );
+      console.dir( frame );
+      frame.style.left = move.offsetX + "px";
+      frame.style.top = move.offsetY + "px";
+    }
+  });
+  document.addEventListener( 'mouseup', (unclick) => {
+    mouse_obj.isClicked = false;
+  });
+}*/
+
+/*function launch_image_framing_modal() {
+  console.log( "launch_image_framing_modal" );
+  const image_framing_modal = document.getElementById("image_framing_modal");
+  image_framing_modal.style.display = "flex";
+  if( global.icon_data != null ) {
+    const dom = "<img class=\"framing_image\" src=\"" + global.user_icon + "\">";
+    const image_container = document.getElementById("image_framing_modal_image_container" );
+    image_container.innerHTML = dom;
+  }
+  attach_image_framing_modal_buttons();
+}*/
+
+/*function attach_image_framing_modal_buttons() {
+  const load = document.getElementById("load_image");
+  load.addEventListener('click', (click) => {
+    select_image();
+  });
+  const save = document.getElementById("save_image");
+  save.addEventListener( 'click', (click) => {
+    save_image();
+  });
+}*/
+
+/*function select_image() {
+  console.log( "upload icon." );
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL( file );
+    reader.onload = readerEvent => {
+      console.dir( readerEvent );
+      const size = readerEvent.total/1000000;
+      console.log( size + "mb" );
+      if( size > 15 ) {
+        alert("Image too large! 16mb limit." );
+        return;
+      }
+      const mime_type = readerEvent.srcElement.result.substr(
+        5,
+        readerEvent.srcElement.result.indexOf(";")-5
+      );
+      const content = readerEvent.target.result;
+      const pos = readerEvent.target.result.indexOf( "," );
+      const data = content.substr( pos+1 );
+      global.user_icon = "data:" + mime_type + ";base64," + data;
+      render_framing_modal_icon();
+    }
+  };
+  input.click();
+}*/
+
+/*function save_image() {
+  fetch( 'http://34.209.84.105:3000/upload_icon',
+   {
+     method: 'POST',
+     body: JSON.stringify({
+      "icon_id": global.icon_id,
+      "icon_data" : global.user_icon
+     }),
+     headers: {
+       'Content-Type': 'application/json'
+     }
+   }
+ ).then( response => response.json() )
+ .then( json => {
+   const image = document.getElementById("edit_profile_icon");
+   image.src = json.icon_data;
+ });
+}*/

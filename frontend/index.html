@@ -24,6 +24,10 @@
 <!--Google's Icons-->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+<!--My image editing solution-->
+<script src="edit_image.js"></script>
+<link rel="stylesheet" href="edit_image.css">
+
 </head>
 <body>
   <div id="login_interface">
@@ -83,7 +87,7 @@
         <div id="home_container_title">Home</div>
         <div id="new_oink_container">
           <div id="new_oink_icon_container">
-            <div id="new_oink_icon">image</div>
+            <img id="new_oink_icon"/>
           </div>
           <div id="new_oink_message_container">
             <div contenteditable id="new_oink_message" type="text" placeholder="What's Happening?">
@@ -123,6 +127,7 @@
         <div id="edit_profile_modal_icon">
           <button id="upload_icon">+</button>
           <img id="edit_profile_icon"/>
+          <div id="edit_profile_icon_selector"></div>
         </div>
       </div>
       <div id="edit_profile_modal_field_container">
@@ -133,6 +138,40 @@
       </div>
     </div>
     <div id="new_oink_modal">
+    </div>
+    <div id="edit_image_modal">
+      <!--div id="image_framing_modal_image_container">
+
+      </div>
+      <div id="image_frame"></div>
+      <div id="image_framing_modal_buttons">
+        <button id="load_image">Load Image</button>
+        <button id="save_image">Save Image</button>
+      </div-->
+      <div id="title_bar">
+        <button id="back_button">back</button>
+        <span id="edit_image_text">Edit Image</span>
+        <button id="save_button">Save</button>
+      </div>
+      <div id="image_meta">
+        <button id="image_framing_button">Frame</button>
+        <button id="image_alt_button">ALT</button>
+      </div>
+      <div id="image_container">
+        <img id="draggable_image" class="unselectable"/>
+        <div id="lens" class="unselectable">
+        </div>
+      </div>
+      <div id="bottom_bar">
+        <div id="original_button"></div>
+        <div id="widescreen_button"></div>
+        <div id="square_button"></div>
+        <div id="slider_container">
+          <div id="minus_hourglass">-</div>
+          <input id="framing_slider" type="range" min="10" max="210" value="30">
+          <div id="plus_hourglass">+</div>
+        </div>
+      </div>
     </div>
   </div>
 </body>

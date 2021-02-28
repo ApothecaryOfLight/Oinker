@@ -19,12 +19,12 @@ const sqlPool = mysql.createPoolPromise({
 app.get('/icon_request/:icon_id', async function(req,res) {
   try {
     console.log( "Getting icon id: " + req.params.icon_id );
-    const icon_query = "SELECT icon_blob_data FROM icons WHERE icon_id=" +
+    const icon_query = "SELECT * FROM icons WHERE icon_id=" +
       req.params.icon_id + ";"
     const [icon_row,icon_field] = await sqlPool.query( icon_query );
     res.send( JSON.stringify({
       "result": "sucess",
-      "icon_data": icon_row[0].icon_blob_data
+      "icon_data": icon_row[0]
     }));
   } catch(error) {
     console.dir( error );
@@ -38,7 +38,14 @@ app.post('/upload_icon', async function(req,res) {
   try {
     console.log( "Upload icon" );
     const insert_icon_query = "UPDATE icons set icon_blob_data = " +
-      "\"" + req.body.icon_data + "\" " +
+      "\"" + req.body.icon_data + "\", " +
+      "offsetX = " + req.body.offsetX + ", " +
+      "offsetY = " + req.body.offsetY + ", " +
+      "width = " + req.body.width + ", " +
+      "height = " + req.body.height + ", " +
+      "zoom = " + req.body.zoom + ", " +
+      "original_width = " + req.body.original_width + ", " +
+      "original_height = " + req.body.original_height + " " +
       "WHERE " + req.body.icon_id + " = icon_id" +
       ";";
     console.log( insert_icon_query );
@@ -46,8 +53,7 @@ app.post('/upload_icon', async function(req,res) {
     const [icon_row,icon_field] = await sqlPool.query( insert_icon_query );
 
     res.send( JSON.stringify({
-      "result": "success",
-      "icon_data": req.body.icon_data
+      "result": "success"
     }));
   } catch( error ) {
     console.dir( error );
@@ -181,7 +187,7 @@ console.log( icon_ids );
         unique_icons_list += "icon_id = " + unique_icon_id + " OR ";
       }
       unique_icons_list = unique_icons_list.slice(0, unique_icons_list.length-4 );
-      const get_icons_query = "SELECT icon_id, icon_blob_data FROM icons WHERE " +
+      const get_icons_query = "SELECT * FROM icons WHERE " +
         unique_icons_list + ";";
       console.log( get_icons_query );
       const [icons_rows,icons_fields] = await sqlPool.query( get_icons_query );
