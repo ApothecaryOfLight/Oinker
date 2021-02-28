@@ -1,0 +1,25 @@
+#edit_profile_modal {
+  width: 60%;
+  height: 70%;
+  background: white;
+  border-radius: 16px;
+}
+#edit_profile_modal_title_bar {
+  display: flex;
+  flex-direciton: row;
+}
+#edit_profile_modal_exit_button {
+  color: pink;
+  font-size: 2em;
+}
+#edit_profile_modal_save_button {
+  background: pink;
+  color: white;
+  border-radius: 22px;
+  font-size: 1.5em;
+  padding: .4em;
+}
+#edit_profile_icon {
+  width: 2em;
+  height: 2em;
+}
