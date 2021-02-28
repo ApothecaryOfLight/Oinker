@@ -261,6 +261,7 @@ function render_delete_html( oink ) {
       ")\">X</button>";
     return del_button;
   }
+  return "";
 }
 
 function delete_oink( oink_id ) {

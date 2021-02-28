@@ -18,7 +18,7 @@ const sqlPool = mysql.createPoolPromise({
 
 app.get('/icon_request/:icon_id', async function(req,res) {
   try {
-    console.log( "Getting icon id: " + req.params.icon_id );
+    //console.log( "Getting icon id: " + req.params.icon_id );
     const icon_query = "SELECT * FROM icons WHERE icon_id=" +
       req.params.icon_id + ";"
     const [icon_row,icon_field] = await sqlPool.query( icon_query );
@@ -36,7 +36,7 @@ app.get('/icon_request/:icon_id', async function(req,res) {
 
 app.post('/upload_icon', async function(req,res) {
   try {
-    console.log( "Upload icon" );
+    //console.log( "Upload icon" );
     const insert_icon_query = "UPDATE icons set icon_blob_data = " +
       "\"" + req.body.icon_data + "\", " +
       "offsetX = " + req.body.offsetX + ", " +
@@ -48,7 +48,7 @@ app.post('/upload_icon', async function(req,res) {
       "original_height = " + req.body.original_height + " " +
       "WHERE " + req.body.icon_id + " = icon_id" +
       ";";
-    console.log( insert_icon_query );
+    //console.log( insert_icon_query );
 
     const [icon_row,icon_field] = await sqlPool.query( insert_icon_query );
 
@@ -100,7 +100,6 @@ app.post('/attempt_create_account', async function(req,res) {
       "(icon_id) VALUES " + "( " + out_id[0].new_id + " );";
     const [create_icon_row,create_icon_field] =
       await sqlPool.query( create_icon_query );
-console.log( "a" );
     const create_acct_query = "INSERT INTO users " +
       "( username_hash, password_hash, icon_id )" +
       " VALUES ( \'" + req.body.username_hash + "\'," +
@@ -109,14 +108,12 @@ console.log( "a" );
       ");";
     const [create_acct_row, create_acct_field] =
       await sqlPool.query( create_acct_query );
-console.log( "b" );
     res.send( JSON.stringify({
       "result": "approve",
       "username_hash": req.body.username_hash,
       "username_plaintext": req.body.username_plaintext,
       "icon_id": out_id[0].new_id
     }));
-console.log( "c" );
   } catch( error ) {
     console.log( error );
     res.send( JSON.stringify({
@@ -135,9 +132,6 @@ app.post('/bot_post', function(req,res) {
 });
 
 app.post( '/new_oink', async function(req,res) {
-  console.log( "New oink received." );
-  console.dir( req.body );
-
   const get_new_id = "SELECT OinkerDB.generate_new_id( 2 ) AS new_id;";
   const [out_id,out_id_fields] = await sqlPool.query( get_new_id );
 
@@ -153,7 +147,6 @@ app.post( '/new_oink', async function(req,res) {
 
   const [out_row,out_field] = await sqlPool.query( addOinkQuery );
 
-  console.log( out_row );
 
   //TODO: Error handling.
   res.send( JSON.stringify({
@@ -176,8 +169,6 @@ app.post( '/delete_oink', async function(req,res) {
 //machine learning. Beyond the scope of this project, currently.
 app.get( '/oinks', async function(req,res) {
   try {
-    console.log( "Oinks get request received." );
-
     const get_oinks_query = "SELECT * FROM oinks ORDER BY timestamp DESC LIMIT 200";
     const [oinks_rows,oinks_fields] = await sqlPool.query( get_oinks_query );
 
@@ -188,7 +179,6 @@ app.get( '/oinks', async function(req,res) {
       }
     }
     let icons_rows_ref = null;
-console.log( icon_ids );
     if( icon_ids.length > 0 ) {
       const unique_icon_ids = new Set(icon_ids);
       let unique_icons_list = "";
@@ -198,11 +188,9 @@ console.log( icon_ids );
       unique_icons_list = unique_icons_list.slice(0, unique_icons_list.length-4 );
       const get_icons_query = "SELECT * FROM icons WHERE " +
         unique_icons_list + ";";
-      console.log( get_icons_query );
       const [icons_rows,icons_fields] = await sqlPool.query( get_icons_query );
       icons_rows_ref = icons_rows;
     }
-
 
     res.send( JSON.stringify({
       "oinks": oinks_rows,
