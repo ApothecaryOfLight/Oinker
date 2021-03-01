@@ -83,68 +83,7 @@ body {
   font-size: 32px;
 }
 
-/*New Oink*/
-#new_oink_container {
-  display: grid;
-  grid-template-columns: 3em auto;
-  padding-bottom: .8em;
-  padding-top: 1em;
-  padding-left: 1em;
-  padding-right: 1em;
-  border: 1px #99996633 solid;
-}
-#new_oink_icon_container {
-  width: 3em;
-  height: 3em;
-  grid-column: 1;
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#new_oink_message_container {
-  grid-column: 2;
-  display: flex;
-  flex-direction: column;
-}
-#new_oink_message {
-  margin-top: .5em;
-  margin-left: .6em;
-  border: 0px;
-  font-size: 1.2em;
-  outline: none;
-  width: 100%;
-  overflow-wrap: anywhere;
-  color: #80808066;
-}
-#new_oink_button_container {
-  width: 100%;
-  grid-column: 2;
-  display: flex;
-  flex-direction: column;
-}
-#new_oink_button {
-  border-radius: 28px;
 
-  background-color: #FFB8F8;
-  color: #0000AAAA;
-
-  border: 0px;
-  font-size: 1.2em;
-  font-weight: bold;
-
-  padding: .6em;
-
-  width: 4.5em;
-
-  align-self: flex-end;
-  cursor: pointer;
-  outline: none;
-}
-#new_oink_button:hover {
-  background-color: #FFA8ED;
-}
 
 
 /*Oink*/
