@@ -24,10 +24,6 @@ function detach_new_oink() {
 
 }
 
-function detach_menu_buttons() {
-
-}
-
 function detach_profile_buttons() {
 
 }

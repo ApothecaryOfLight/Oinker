@@ -6,35 +6,35 @@ function launch_login_interface() {
   attach_login();
 }
 
+const login_functions = {
+  "button_login": attempt_login,
+  "button_create_account": attempt_create_account
+}
+
 function attach_login() {
-  const login_button = document.getElementById("button_login");
-  const create_account_button = document.getElementById("button_create_account");
-  document.getElementById("username_field").value = "";
-  document.getElementById("password_field").value = "";
-  login_button.addEventListener( 'click', (event) => {
-    const username_field = document.getElementById("username_field");
-    const password_field = document.getElementById("password_field");
-    console.log( "Attempting login!" );
-    attempt_login( username_field.value, password_field.value );
-  });
-  create_account_button.addEventListener( 'click', (event) => {
-    console.log( "Attempting create account!" );
-    attempt_create_account( username_field.value, password_field.value );
-  });
+  for( element in login_functions ) {
+    const element_ref = document.getElementById( element );
+    element_ref.addEventListener( 'click', login_functions[element] );
+  }
 }
 
 function detach_login() {
-
+  for( element in login_functions ) {
+    const element_ref = document.getElementById( element );
+    element_ref.removeEventListener( 'click', login_functions[element] );
+  }
 }
 
-async function attempt_login( inUsername, inPassword ) {
+async function attempt_login() {
+  const username = document.getElementById("username_field").value;
+  const password = document.getElementById("password_field").value;
   fetch( 'http://34.209.84.105:3000/attempt_login',
     {
       method: 'POST',
       body: JSON.stringify({
-        "username_hash": md5(inUsername),
-        "password_hash": md5(inPassword),
-        "username_plaintext": inUsername
+        "username_hash": md5(username),
+        "password_hash": md5(password),
+        "username_plaintext": username
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -44,24 +44,27 @@ async function attempt_login( inUsername, inPassword ) {
   .then( json => {
     if( json.result == "approve" ) {
       global.logged = true;
-      global.username_hash = md5(inUsername);
-      global.username_plaintext = inUsername;
+      global.username_hash = md5(username);
+      global.username_plaintext = username;
       global.icon_id = json.icon_id;
       launch_oink_interface();
+      detach_login();
     } else {
       alert( json.error_message );
     }
   });
 }
 
-async function attempt_create_account( inUsername, inPassword ) {
+async function attempt_create_account() {
+  const username = document.getElementById("username_field").value;
+  const password = document.getElementById("password_field").value;
   fetch( 'http://34.209.84.105:3000/attempt_create_account',
     {
       method: 'POST',
       body: JSON.stringify({
-        "username_hash": md5(inUsername),
-        "password_hash": md5(inPassword),
-        "username_plaintext": inUsername
+        "username_hash": md5(username),
+        "password_hash": md5(password),
+        "username_plaintext": username
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -71,10 +74,11 @@ async function attempt_create_account( inUsername, inPassword ) {
   .then( json => {
     if( json.result == "approve" ) {
       global.logged = true;
-      global.username_hash = md5(inUsername);
-      global.username_plaintext = inUsername;
+      global.username_hash = md5(username);
+      global.username_plaintext = username;
       global.icon_id = json.icon_id;
       launch_oink_interface();
+      detach_login();
     } else {
       alert( json.error_message );
     }
@@ -82,7 +86,7 @@ async function attempt_create_account( inUsername, inPassword ) {
 }
 
 function logout() {
-  fetch( 'http://34.209.84.105:3000/logout',
+/*  fetch( 'http://34.209.84.105:3000/logout',
     {
       method: 'POST',
       body: JSON.stringify({
@@ -94,14 +98,14 @@ function logout() {
     }
   ).then( response => response.json() )
   .then( json => {
-/*    if( json.result == "approve" ) {
-    } else {
-      alert( json.error_message );
-    }*/
-  });
+    console.dir( json );
+  });*/
   global.logged = false;
   global.username_hash = "";
   global.username_plaintext = "";
+  document.getElementById("username_field").value = "";
+  document.getElementById("password_field").value = "";
   global.icon_id = null;
+  detach_menu_buttons();
   launch_login_interface();
 }
