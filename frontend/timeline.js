@@ -25,7 +25,7 @@ function render_timeline( inTimeline ) {
           render_icon_html( inTimeline.icons, icon_place ) +
         "</div>" +
         "<div class=\"oink_name_container\">" +
-          "<div class=\"oink_nym\">" + inTimeline.oinks[oink].username_plaintext + "</div>
+          "<div class=\"oink_nym\">" + inTimeline.oinks[oink].username_plaintext + "</div>" + 
           "<div class=\"oink_name_id\"></div>" +
           "<div class=\"oink_time\">&nbsp;&#x22C5;&nbsp;" +
             timestampToString( inTimeline.oinks[oink].timestamp ) +
