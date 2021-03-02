@@ -20,10 +20,14 @@ function attach_to_new_oink() {
   };
 
   const new_oink_button = document.getElementById("new_oink_button");
-  new_oink_button.addEventListener( 'mousedown', (event) => {
-    send_new_oink();
-  });
+  new_oink_button.addEventListener( 'mousedown', send_new_oink );
 }
+
+function detach_new_oink_buttons() {
+  const new_oink_button = document.getElementById("new_oink_button");
+  new_oink_button.removeEventListener( 'mousedown', send_new_oink );
+}
+
 function send_new_oink() {
   const new_oink_field = document.getElementById("new_oink_message");
   const new_oink_text = new_oink_field.innerText;

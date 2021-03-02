@@ -107,5 +107,7 @@ function logout() {
   document.getElementById("password_field").value = "";
   global.icon_id = null;
   detach_menu_buttons();
+  detach_profile_buttons();
+  detach_new_oink_buttons();
   launch_login_interface();
 }
