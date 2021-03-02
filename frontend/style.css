@@ -83,11 +83,15 @@ body {
   font-size: 32px;
 }
 
+#home_container {
+  border-left: 1px #99996633 solid;
+  border-right: 1px #99996633 solid;
+}
 #home_container_title {
   font-size: 2em;
   border-top: 1px #99996633 solid;
-  border-left: 1px #99996633 solid;
-  border-right: 1px #99996633 solid;
+/*  border-left: 1px #99996633 solid;
+  border-right: 1px #99996633 solid;*/
   padding: 0.5em;
 }
 
@@ -112,4 +116,16 @@ body {
 
 #upload_icon {
   position: absolute;
+}
+
+#user_background_container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#user_background {
+  width: 100%;
 }

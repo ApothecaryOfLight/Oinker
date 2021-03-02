@@ -18,9 +18,26 @@ function launch_oink_interface() {
   attach_profile_buttons();
   request_oinks();
   request_icon();
+  request_background();
+}
+
+function request_background() {
+  console.log( "request_background" );
+  fetch( 'http://34.209.84.105:3000/background_request/' + global.background_id,
+    {
+      method: 'GET'
+    }
+  ).then( response => response.json() )
+  .then( json => {
+    //TODO: Set poster icon here.
+    global.background_data = json.background_data;
+    render_user_background();
+    render_edit_profile_background();
+  });
 }
 
 function request_icon() {
+  console.log( "request_icon" );
   fetch( 'http://34.209.84.105:3000/icon_request/' + global.icon_id,
     {
       method: 'GET'
@@ -28,7 +45,9 @@ function request_icon() {
   ).then( response => response.json() )
   .then( json => {
     //TODO: Set poster icon here.
-    render_user_profile( json.icon_data );
+    global.icon_data = json.icon_data;
+    render_user_profile();
+    render_edit_profile_icon();
   });
 }
 

@@ -20,9 +20,21 @@
   font-size: 1.5em;
   padding: .4em;
 }
-#edit_profile_icon {
-  width: 2em;
-  height: 2em;
+#edit_profile_modal_save_button:hover {
+  background: blue;
+}
+#edit_profile_icon_container {
+  width: 6em;
+  height: 6em;
+  grid-column: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#edit_profile_icon_container:hover {
+  border: 1px black solid;
 }
 
 
@@ -36,4 +48,15 @@
   height: 2em;
   border: 5px solid black;
   border-radius: 5px;
+}
+
+#upload_icon {
+  border: 0px;
+  background: #00000000;
+  font-weight: bold;
+  font-size: 2em;
+  color: pink;
+}
+#upload_icon:hover {
+  color: black;
 }

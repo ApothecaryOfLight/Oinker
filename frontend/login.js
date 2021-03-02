@@ -47,6 +47,7 @@ async function attempt_login() {
       global.username_hash = md5(username);
       global.username_plaintext = username;
       global.icon_id = json.icon_id;
+      global.background_id = json.background_id;
       launch_oink_interface();
       detach_login();
     } else {
@@ -78,6 +79,7 @@ async function attempt_create_account() {
       global.username_hash = md5(username);
       global.username_plaintext = username;
       global.icon_id = json.icon_id;
+      global.background_id = json.background_id;
       launch_oink_interface();
       detach_login();
     } else {
@@ -107,6 +109,8 @@ function logout() {
   document.getElementById("username_field").value = "";
   document.getElementById("password_field").value = "";
   global.icon_id = null;
+  global.background_id = null;
+
   detach_menu_buttons();
   detach_profile_buttons();
   detach_new_oink_buttons();

@@ -34,6 +34,24 @@ app.get('/icon_request/:icon_id', async function(req,res) {
   }
 });
 
+app.get('/background_request/:background_id', async function(req,res) {
+  try {
+    //console.log( "Getting icon id: " + req.params.icon_id );
+    const background_query = "SELECT * FROM backgrounds WHERE background_id=" +
+      req.params.background_id + ";"
+    const [background_row,background_field] = await sqlPool.query( background_query );
+    res.send( JSON.stringify({
+      "result": "sucess",
+      "background_data": background_row[0]
+    }));
+  } catch(error) {
+    console.dir( error );
+    res.send( JSON.stringify({
+      "result": "error"
+    }));
+  }
+});
+
 app.post('/upload_icon', async function(req,res) {
   try {
     //console.log( "Upload icon" );
@@ -63,9 +81,38 @@ app.post('/upload_icon', async function(req,res) {
   }
 });
 
+app.post('/upload_background', async function(req,res) {
+  try {
+    //console.log( "Upload background" );
+    const insert_background_query = "UPDATE backgrounds set background_blob_data = " +
+      "\"" + req.body.background_data + "\", " +
+      "offsetX = " + req.body.offsetX + ", " +
+      "offsetY = " + req.body.offsetY + ", " +
+      "width = " + req.body.width + ", " +
+      "height = " + req.body.height + ", " +
+      "zoom = " + req.body.zoom + ", " +
+      "original_width = " + req.body.original_width + ", " +
+      "original_height = " + req.body.original_height + " " +
+      "WHERE " + req.body.background_id + " = background_id" +
+      ";";
+    //console.log( insert_background_query );
+
+    const [background_row,background_field] = await sqlPool.query( insert_background_query );
+
+    res.send( JSON.stringify({
+      "result": "success"
+    }));
+  } catch( error ) {
+    console.dir( error );
+    res.send( JSON.stringify({
+      "result": "error"
+    }));
+  }
+});
+
 app.post('/attempt_login', async function(req,res) {
   try {
-    const login_query = "SELECT password_hash, icon_id FROM users WHERE " +
+    const login_query = "SELECT password_hash, icon_id, background_id FROM users WHERE " +
       "username_hash = \'" + req.body.username_hash + "\';"
     const [login_row,login_field] = await sqlPool.query( login_query );
     const password_hash = String.fromCharCode.apply(null, login_row[0].password_hash);
@@ -74,7 +121,8 @@ app.post('/attempt_login', async function(req,res) {
         "result": "approve",
         "username_hash": req.body.username_hash,
         "username_plaintext": req.body.username_plaintext,
-        "icon_id": login_row[0].icon_id
+        "icon_id": login_row[0].icon_id,
+        "background_id": login_row[0].background_id
       }));
     } else {
       res.send( JSON.stringify({
@@ -100,10 +148,18 @@ app.post('/attempt_create_account', async function(req,res) {
       "(icon_id) VALUES " + "( " + out_id[0].new_id + " );";
     const [create_icon_row,create_icon_field] =
       await sqlPool.query( create_icon_query );
+
+    const create_background_query = "INSERT INTO backgrounds " +
+      "(background_id) VALUES " + "( " + out_id[0].new_id + " );";
+    const [create_background_row,create_background_field] =
+      await sqlPool.query( create_background_query );
+
+
     const create_acct_query = "INSERT INTO users " +
-      "( username_hash, password_hash, icon_id )" +
+      "( username_hash, password_hash, icon_id, background_id )" +
       " VALUES ( \'" + req.body.username_hash + "\'," +
       " \'" + req.body.password_hash + "\'," +
+      out_id[0].new_id + "," +
       out_id[0].new_id +
       ");";
     const [create_acct_row, create_acct_field] =
@@ -112,7 +168,8 @@ app.post('/attempt_create_account', async function(req,res) {
       "result": "approve",
       "username_hash": req.body.username_hash,
       "username_plaintext": req.body.username_plaintext,
-      "icon_id": out_id[0].new_id
+      "icon_id": out_id[0].new_id,
+      "background_id": out_id[0].new_id
     }));
   } catch( error ) {
     console.log( error );

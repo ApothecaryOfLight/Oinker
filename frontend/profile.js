@@ -1,18 +1,3 @@
-function render_user_profile( icon_data ) {
-  const test_profile = document.getElementById("new_oink_icon");
-  test_profile.src = icon_data.icon_blob_data;
-
-  const profile_width = (icon_data.zoom*icon_data.width)/12.5;
-  const profile_height = (icon_data.zoom*icon_data.height)/12.5;
-  const profile_offset_x = icon_data.offsetX/12.5;
-  const profile_offset_y = icon_data.offsetY/12.5;
-
-  test_profile.style.width = profile_width + "px";
-  test_profile.style.height = profile_height + "px";
-  test_profile.style['margin-left'] = profile_offset_x + "px";
-  test_profile.style['margin-top'] = profile_offset_y + "px";
-}
-
 const profile_buttons = {
   "launch_profile_button" : launch_edit_profile_modal
 }
@@ -38,12 +23,47 @@ function launch_edit_profile_modal() {
   const profile_modal = document.getElementById("edit_profile_modal");
   profile_modal.style.display = 'block';
 
+  render_edit_profile_icon();
+
   attach_edit_profile_buttons();
+}
+
+function render_edit_profile_icon() {
+console.log( "render edit profile icon" );
+  const edit_profile_icon = document.getElementById("edit_profile_icon");
+  edit_profile_icon.src = global.icon_data.icon_blob_data;
+
+  const profile_width = (global.icon_data.zoom*global.icon_data.width)/6.25;
+  const profile_height = (global.icon_data.zoom*global.icon_data.height)/6.25;
+  const profile_offset_x = global.icon_data.offsetX/6.25;
+  const profile_offset_y = global.icon_data.offsetY/6.25;
+
+  edit_profile_icon.style.width = profile_width + "px";
+  edit_profile_icon.style.height = profile_height + "px";
+  edit_profile_icon.style['margin-left'] = profile_offset_x + "px";
+  edit_profile_icon.style['margin-top'] = profile_offset_y + "px";
+}
+
+function render_edit_profile_background() {
+console.log( "render edit profile background" );
+  const edit_profile_background = document.getElementById("edit_profile_background");
+  edit_profile_background.src = global.background_data.background_blob_data;
+
+  const profile_width = (global.background_data.zoom*global.background_data.width);
+  const profile_height = (global.background_data.zoom*global.background_data.height);
+  const profile_offset_x = global.background_data.offsetX;
+  const profile_offset_y = global.background_data.offsetY;
+
+  edit_profile_background.style.width = profile_width + "px";
+  edit_profile_background.style.height = profile_height + "px";
+  edit_profile_background.style['margin-left'] = profile_offset_x + "px";
+  edit_profile_background.style['margin-top'] = profile_offset_y + "px";
 }
 
 const edit_profile_buttons = {
   "edit_profile_modal_exit_button": close_edit_profile_modal,
-  "upload_icon": upload_profile_icon
+  "upload_icon": upload_profile_icon,
+  "upload_background": upload_profile_background
 }
 
 function attach_edit_profile_buttons() {
@@ -67,7 +87,11 @@ function detach_edit_profile_buttons() {
 }
 
 function upload_profile_icon() {
-  select_image();
+  select_icon_image();
+}
+
+function upload_profile_background() {
+  select_background_image();
 }
 
 function close_edit_profile_modal() {
