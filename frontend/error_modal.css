@@ -1,0 +1,6 @@
+#error_modal {
+  display: none;
+  width: 60vw;
+  height: 60vh;
+  background: white;
+}
