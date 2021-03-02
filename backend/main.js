@@ -112,7 +112,7 @@ app.post('/upload_background', async function(req,res) {
 
 app.post('/attempt_login', async function(req,res) {
   try {
-    const login_query = "SELECT password_hash, icon_id, background_id FROM users WHERE " +
+    const login_query = "SELECT password_hash, icon_id, background_id, profile_id FROM users WHERE " +
       "username_hash = \'" + req.body.username_hash + "\';"
     const [login_row,login_field] = await sqlPool.query( login_query );
     const password_hash = String.fromCharCode.apply(null, login_row[0].password_hash);
@@ -122,7 +122,8 @@ app.post('/attempt_login', async function(req,res) {
         "username_hash": req.body.username_hash,
         "username_plaintext": req.body.username_plaintext,
         "icon_id": login_row[0].icon_id,
-        "background_id": login_row[0].background_id
+        "background_id": login_row[0].background_id,
+        "profile_id": login_row[0].profile_id
       }));
     } else {
       res.send( JSON.stringify({
@@ -154,11 +155,18 @@ app.post('/attempt_create_account', async function(req,res) {
     const [create_background_row,create_background_field] =
       await sqlPool.query( create_background_query );
 
+    const create_profile_query = "INSERT INTO profiles " +
+      "(profile_id) VALUES " + "( " + out_id[0].new_id + " );";
+    const [create_profile_row,create_profile_field] =
+      await sqlPool.query( create_profile_query );
+
 
     const create_acct_query = "INSERT INTO users " +
-      "( username_hash, password_hash, icon_id, background_id )" +
+      "( username_hash, password_hash, icon_id, " +
+      " background_id, profile_id )" +
       " VALUES ( \'" + req.body.username_hash + "\'," +
       " \'" + req.body.password_hash + "\'," +
+      out_id[0].new_id + "," +
       out_id[0].new_id + "," +
       out_id[0].new_id +
       ");";
@@ -169,7 +177,8 @@ app.post('/attempt_create_account', async function(req,res) {
       "username_hash": req.body.username_hash,
       "username_plaintext": req.body.username_plaintext,
       "icon_id": out_id[0].new_id,
-      "background_id": out_id[0].new_id
+      "background_id": out_id[0].new_id,
+      "profile_id": out_id[0].new_id
     }));
   } catch( error ) {
     console.log( error );
@@ -259,6 +268,62 @@ app.get( '/oinks', async function(req,res) {
       "result": "error",
       "error_message": "Unspecified error attempting to create account."
     }));
+  }
+});
+
+app.post( '/set_profile', async function(req,res) {
+  try {
+    const set_profile_query = "UPDATE profiles " +
+      "SET location = \"" + req.body.location + "\", " +
+      "description = \"" + req.body.description + "\"" +
+      " WHERE profile_id = " + req.body.profile_id + ";";
+    const [set_profile_row,set_profile_field] =
+      await sqlPool.query( set_profile_query );
+
+    const set_nym_query = "UPDATE users " +
+      "SET nym = \"" + req.body.nym + "\"" +
+      "WHERE username_hash = \"" + req.body.username_hash + "\"";
+    const [set_nym_row,set_nym_field] = await sqlPool.query( set_nym_query );
+
+    res.send( JSON.stringify({
+      "result": "success"
+    }));
+  } catch(error) {
+    res.send( JSON.stringify({
+      "result": "error",
+      "error_message": error
+    }));
+  }
+});
+
+app.get( '/get_profile/:profile_id', async function(req,res) {
+  try {
+    const get_profile_query = "SELECT * FROM profiles " +
+      "WHERE profile_id = " + req.params.profile_id + ";"
+    console.log( get_profile_query );
+    const [get_profile_row,get_profile_field] = await sqlPool.query( get_profile_query );
+    res.send( JSON.stringify({
+      "description": get_profile_row[0].description,
+      "location": get_profile_row[0].location
+    }));
+  } catch( error ) {
+    res.send( JSON.stringify({
+      "result": "error",
+      "error_message": "Unspecified error message."
+    }));
+  }
+});
+
+app.post( '/get_nym', async function(req,res) {
+  try {
+    const get_nym_query = "SELECT nym FROM users " +
+      "WHERE username_hash = \"" + req.body.username_hash + "\";"
+    const [get_nym_row,get_nym_field] = await sqlPool.query( get_nym_query );
+    res.send( JSON.stringify({
+      "nym": get_nym_row[0].nym
+    }));
+  } catch(error) {
+
   }
 });
 

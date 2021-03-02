@@ -60,3 +60,33 @@
 #upload_icon:hover {
   color: black;
 }
+
+#upload_background {
+  position: absolute;
+}
+
+#edit_profile_textarea_container {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin-top: 2em;
+  margin-left: 5%;
+  margin-right: 5%;
+/*  overflow-y: scroll;*/
+}
+
+#edit_profile_nym {
+  resize: none;
+  width: 100%;
+  margin-bottom: 2em;
+}
+#edit_profile_description {
+  resize: none;
+  width: 100%;
+  margin-bottom: 2em;
+}
+#edit_profile_location {
+  resize: none;
+  width: 100%;
+  margin-bottom: 2em;
+}

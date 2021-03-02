@@ -1,5 +1,94 @@
 const profile_buttons = {
-  "launch_profile_button" : launch_edit_profile_modal
+  "launch_profile_button" : launch_edit_profile_modal,
+  "edit_profile_modal_save_button": save_profile
+}
+
+function save_profile() {
+  const name = document.getElementById("edit_profile_nym").value;
+  const bio = document.getElementById("edit_profile_description").value;
+  const location = document.getElementById("edit_profile_location").value;
+  fetch( 'http://34.209.84.105:3000/set_profile',
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        "profile_id": global.profile_id,
+        "nym" : name,
+        "description": bio,
+        "location": location,
+        "username_hash": global.username_hash
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  ).then( response => response.json() )
+  .then( json => {
+    get_profile();
+    get_nym();
+    //TODO: Non-success code.
+    //TODO: Redraw profile page.
+  });
+}
+
+function get_profile() {
+  fetch( 'http://34.209.84.105:3000/get_profile/' + global.profile_id,
+    {
+      'method': 'GET'
+    }
+  ).then( response => response.json() ).
+  then( json => {
+    console.dir( json );
+    global_profile.location = json.location;
+    global_profile.description = json.description;
+    render_profile();
+    render_edit_profile();
+  });
+}
+
+function get_nym() {
+  fetch( 'http://34.209.84.105:3000/get_nym',
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        "username_hash": global.username_hash
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  ).then( response => response.json() )
+  .then( json => {
+    //TODO: Non-success code.
+    global.nym = json.nym;
+    render_nym();
+  });
+}
+
+const global_profile = {
+  location: null,
+  description: null
+}
+
+function render_profile() {
+console.log( "render profile");
+  const bio = document.getElementById("profile_description");
+  const location = document.getElementById("profile_location");
+  bio.innerHTML = global_profile.description;
+  location.innerHTML = global_profile.location;
+}
+
+function render_edit_profile() {
+  const bio = document.getElementById("edit_profile_description");
+  const location = document.getElementById("edit_profile_location");
+  bio.value = global_profile.description;
+  location.value = global_profile.location;
+}
+
+function render_nym() {
+  const edit_name = document.getElementById("edit_profile_nym");
+  edit_name.value = global.nym;
+  const name = document.getElementById("profile_nym");
+  name.innerHTML = global.nym;
 }
 
 function attach_profile_buttons() {
@@ -26,10 +115,10 @@ function launch_edit_profile_modal() {
   render_edit_profile_icon();
 
   attach_edit_profile_buttons();
+
 }
 
 function render_edit_profile_icon() {
-console.log( "render edit profile icon" );
   const edit_profile_icon = document.getElementById("edit_profile_icon");
   edit_profile_icon.src = global.icon_data.icon_blob_data;
 
@@ -45,7 +134,6 @@ console.log( "render edit profile icon" );
 }
 
 function render_edit_profile_background() {
-console.log( "render edit profile background" );
   const edit_profile_background = document.getElementById("edit_profile_background");
   edit_profile_background.src = global.background_data.background_blob_data;
 

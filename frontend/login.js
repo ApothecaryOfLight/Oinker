@@ -48,8 +48,11 @@ async function attempt_login() {
       global.username_plaintext = username;
       global.icon_id = json.icon_id;
       global.background_id = json.background_id;
+      global.profile_id = json.profile_id;
       launch_oink_interface();
       detach_login();
+      get_profile();
+      get_nym();
     } else {
 //      alert( json.error_message );
       launch_error_modal( json.error_message );
@@ -80,8 +83,11 @@ async function attempt_create_account() {
       global.username_plaintext = username;
       global.icon_id = json.icon_id;
       global.background_id = json.background_id;
+      global.profile_id = json.profile_id;
       launch_oink_interface();
       detach_login();
+      get_profile();
+      get_nym();
     } else {
       alert( json.error_message );
     }
@@ -110,6 +116,7 @@ function logout() {
   document.getElementById("password_field").value = "";
   global.icon_id = null;
   global.background_id = null;
+  global.profile_id = null;
 
   detach_menu_buttons();
   detach_profile_buttons();

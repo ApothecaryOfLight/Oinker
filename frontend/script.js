@@ -123,7 +123,9 @@ const global = {
   username_plaintext: "",
   last_get: "",
   icon_id: null,
-  icon_data: null
+  icon_data: null,
+  background_id: null,
+  profile_id: null
 }
 
 window.addEventListener( 'mousemove', (event) => {
