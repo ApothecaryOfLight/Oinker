@@ -32,8 +32,12 @@ function detach_profile_buttons() {
 }
 
 function launch_edit_profile_modal() {
-  const profile_modal = document.getElementById("modal_background");
-  profile_modal.style.display = "flex";
+  const modal_background = document.getElementById("modal_background");
+  modal_background.style.display = 'flex';
+
+  const profile_modal = document.getElementById("edit_profile_modal");
+  profile_modal.style.display = 'block';
+
   attach_edit_profile_buttons();
 }
 

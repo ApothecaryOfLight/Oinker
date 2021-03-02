@@ -1,4 +1,5 @@
 #edit_profile_modal {
+  display: none;
   width: 60%;
   height: 70%;
   background: white;

@@ -50,7 +50,8 @@ async function attempt_login() {
       launch_oink_interface();
       detach_login();
     } else {
-      alert( json.error_message );
+//      alert( json.error_message );
+      launch_error_modal( json.error_message );
     }
   });
 }
