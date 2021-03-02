@@ -13,25 +13,60 @@ function render_user_profile( icon_data ) {
   test_profile.style['margin-top'] = profile_offset_y + "px";
 }
 
+const profile_buttons = {
+  "launch_profile_button" : launch_edit_profile_modal
+}
+
 function attach_profile_buttons() {
-  const launch_profile_button = document.getElementById("launch_profile_button");
-  launch_profile_button.addEventListener( 'click', (click) => {
-    const profile_modal = document.getElementById("modal_background");
-    profile_modal.style.display = "flex";
-    attach_edit_profile_buttons();
-  });
+  for( button_name in profile_buttons ) {
+    const dom_reference = document.getElementById( button_name ) ;
+    dom_reference.addEventListener( 'click', profile_buttons[button_name] );
+  }
+}
+
+function detach_profile_buttons() {
+  for( button_name in profile_buttons ) {
+    const dom_reference = document.getElementById( button_name ) ;
+    dom_reference.removeEventListener( 'click', profile_buttons[button_name] );
+  }
+}
+
+function launch_edit_profile_modal() {
+  const profile_modal = document.getElementById("modal_background");
+  profile_modal.style.display = "flex";
+  attach_edit_profile_buttons();
+}
+
+const edit_profile_buttons = {
+  "edit_profile_modal_exit_button": close_edit_profile_modal,
+  "upload_icon": upload_profile_icon
 }
 
 function attach_edit_profile_buttons() {
-  const exit_profile_modal_button = document.getElementById("edit_profile_modal_exit_button");
-  exit_profile_modal_button.addEventListener( 'click', (click) => {
-    const profile_modal = document.getElementById("modal_background");
-    profile_modal.style.display = "none";
-  });
+  for( button_name in edit_profile_buttons ) {
+    const dom_reference = document.getElementById( button_name ) ;
+    dom_reference.addEventListener(
+      'click',
+      edit_profile_buttons[button_name]
+    );
+  }
+}
 
-  const edit_profile_upload_icon = document.getElementById("upload_icon");
-  edit_profile_upload_icon.addEventListener( 'click', (click) => {
-    console.log( "upload profile image" );
-    select_image();
-  });
+function detach_edit_profile_buttons() {
+  for( button_name in edit_profile_buttons ) {
+    const dom_reference = document.getElementById( button_name ) ;
+    dom_reference.removeEventListener(
+      'click',
+      edit_profile_buttons[button_name]
+    );
+  }
+}
+
+function upload_profile_icon() {
+  select_image();
+}
+
+function close_edit_profile_modal() {
+  const profile_modal = document.getElementById("modal_background");
+  profile_modal.style.display = "none";
 }
