@@ -16,6 +16,7 @@
 
   margin-top: 1em;
 }
+
 #menu_mascot {
   font-size: 2em;
   cursor: pointer;
@@ -60,7 +61,7 @@
     font-weight: bold;
   }
 }
-/*New Oink Button*/
+/*New Oink Button not updating*/
 #menu_button_new_oink {
   padding: 1em;
   border-radius: 50%;
@@ -102,5 +103,27 @@
   }
   #menu_icon_new_oink {
     display: none;
+  }
+}
+.menu_piggy {
+  width: 50px;
+}
+
+@media (max-width:499px) {
+  #root_container {
+    grid-template-rows: 10px auto 10px;
+  }
+  #menu_container {
+    flex-direction: row;
+    bottom: 0px;
+    height: unset;
+    background: white;
+  }
+  #menu_button_new_oink {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  #menu_mascot {
+    grid-row: 1;
   }
 }
