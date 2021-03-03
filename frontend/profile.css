@@ -40,7 +40,7 @@
 
 #profile_container {
   display: none;
-  position: absolute;
+  width: 100%;
 }
 #edit_profile_icon_selector {
   position: absolute;

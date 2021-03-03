@@ -118,12 +118,19 @@
     bottom: 0px;
     height: unset;
     background: white;
+    width: 100%;
+    justify-content: space-evenly;
+    margin-left: 0px;
+    border-top: 1px #99996633 solid;
   }
   #menu_button_new_oink {
     margin-top: 0px;
     margin-bottom: 0px;
   }
   #menu_mascot {
-    grid-row: 1;
+    display: none;
+  }
+  #menu_button_new_oink {
+    display: none;
   }
 }

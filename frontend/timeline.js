@@ -36,7 +36,7 @@ function render_timeline( inTimeline ) {
           "<div class=\"oink_message\">" +
             inTimeline.oinks[oink].text_content +
           "</div>" +
-          "<div class=\"oink_button_container\">" + "buttons here" + "</div>" +
+          "<div class=\"oink_button_container\">" + "<!--buttons here-->" + "</div>" +
         "</div>" +
       "</div>";
     timestampToString( inTimeline.oinks[oink].timestamp );
