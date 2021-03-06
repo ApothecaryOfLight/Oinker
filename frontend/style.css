@@ -123,14 +123,18 @@ body {
   position: absolute;
 }
 
-#user_background_container {
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.p_button {
+  background-color: #FFB8F8;
+  color: #0000AAAA;
+  border: 0px;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: .6em;
+  cursor: pointer;
+  outline: none;
+  border-radius: 28px;
+  margin: .2em;
 }
-#user_background {
-  width: 100%;
+.p_button:hover {
+  background: #FFA8ED;
 }

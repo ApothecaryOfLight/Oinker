@@ -21,7 +21,7 @@ function launch_oink_interface() {
   request_background();
 }
 
-function request_background() {
+/*function request_background() {
   console.log( "request_background" );
   fetch( 'http://34.209.84.105:3000/background_request/' + global.background_id,
     {
@@ -32,9 +32,10 @@ function request_background() {
     //TODO: Set poster icon here.
     global.background_data = json.background_data;
     render_user_background();
+    render_profile_icon();
     render_edit_profile_background();
   });
-}
+}*/
 
 function request_icon() {
   console.log( "request_icon" );
@@ -60,7 +61,11 @@ function set_container( inContainerName ) {
   container_names.forEach( name => {
     const container = document.getElementById(name);
     if( inContainerName == name ) {
-      container.style.display = "block";
+      if( name == "profile_container" ) {
+        container.style.display = "grid";
+      } else {
+        container.style.display = "block";
+      }
     } else {
       container.style.display = "none";
     }

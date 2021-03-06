@@ -14,21 +14,6 @@ function render_user_profile() {
   test_profile.style['margin-top'] = profile_offset_y + "px";
 }
 
-function render_user_background() {
-  const test_profile = document.getElementById("user_background");
-  test_profile.src = global.background_data.background_blob_data;
-
-  const profile_width = (global.background_data.zoom*global.background_data.width);
-  const profile_height = (global.background_data.zoom*global.background_data.height);
-  const profile_offset_x = global.background_data.offsetX;
-  const profile_offset_y = global.background_data.offsetY;
-
-  test_profile.style.width = profile_width + "px";
-  test_profile.style.height = profile_height + "px";
-  test_profile.style['margin-left'] = profile_offset_x + "px";
-  test_profile.style['margin-top'] = profile_offset_y + "px";
-}
-
 
 function attach_to_new_oink() {
   const new_oink_message = document.getElementById("new_oink_message");

@@ -3,8 +3,8 @@
   grid-template-rows: 2em auto auto;
   grid-template-columns: 6em calc( 100% - 2em );
   border-bottom: 1px #99996633 solid;
-  border-left: 1px #99996633 solid;
-  border-right: 1px #99996633 solid;
+/*  border-left: 1px #99996633 solid;
+  border-right: 1px #99996633 solid;*/
 }
 .oink:hover {
   background: #80808066;
