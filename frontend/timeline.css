@@ -51,11 +51,14 @@
 .oink_message {
   overflow-wrap: normal;
   word-break: break-word;
-  width: 85%;
+  width: 81%;
 }
 @media (max-width: 499px) {
   .oink {
     grid-template-columns: 4em calc( 100% - 2em );
+  }
+  .oink_message {
+    width: 80%;
   }
 /*  .oink_message {
     width: 75%;
@@ -94,7 +97,7 @@
     display: none;
   }
   #new_oink_container {
-    margin-top: 85px;
+    margin-top: 40px;
   }
   #title_bar_icon {
     display: inline;

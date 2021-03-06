@@ -8,6 +8,7 @@ const menu_buttons = {
 };
 
 function scroll_to_top() {
+console.log( "scroll to " );
   window.scrollTo( 0,0 );
 }
 

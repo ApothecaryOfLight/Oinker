@@ -19,6 +19,7 @@ function launch_oink_interface() {
   request_oinks();
   request_icon();
   request_background();
+  window.scrollTo( 0,0 );
 }
 
 /*function request_background() {

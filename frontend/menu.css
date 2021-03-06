@@ -56,9 +56,13 @@
 @media (min-width:1280px) {
   .menu_text {
     display: inline-block;
-    padding-left: 1em;
+    padding-left: .6em;
     font-size: 1.4em;
     font-weight: bold;
+  }
+  #menu_mascot {
+    align-self: start;
+    padding-left: .3em;
   }
 }
 /*New Oink Button not updating*/
