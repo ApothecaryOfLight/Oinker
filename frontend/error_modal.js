@@ -21,7 +21,8 @@ function launch_error_modal( error_message, buttons ) {
         button_name + "</button>"
     }
   }
-  dom += "<button onclick=\"close_error_modal()\">Close</button>";
+  dom += "<button class=\"p_button\" " +
+   "onclick=\"close_error_modal()\">Close</button>";
   error_buttons_container.innerHTML = dom;
 }
 

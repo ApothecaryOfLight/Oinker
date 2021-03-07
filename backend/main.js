@@ -128,14 +128,14 @@ app.post('/attempt_login', async function(req,res) {
     } else {
       res.send( JSON.stringify({
         "result": "refused",
-        "reason": "Credentials failed to authenticate!",
+        "error_message": "Credentials failed to authenticate!",
       }));
     }
   } catch( error ) {
     console.log( error );
     res.send( JSON.stringify({
       "result": "refused",
-      "error_message": "Unspecified."
+      "error_message": "Unspecified error occured."
     }));
   }
 });

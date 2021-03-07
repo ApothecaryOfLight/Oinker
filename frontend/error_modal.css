@@ -1,6 +1,28 @@
 #error_modal {
   display: none;
-  width: 60vw;
-  height: 60vh;
+  width: 30vw;
+  height: 30vh;
   background: white;
+  flex-direction: column;
+  border-radius: 16px;
+  justify-content: center;
+  align-items: center;
+}
+
+#error_modal_message {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 20%;
+  text-align: center;
+}
+#error_modal_buttons {
+  display: flex;
+  flex-direction :row;
+}
+
+@media (max-width:499px) {
+  #error_modal {
+    width: 90vw;
+    height: 80vw;
+  }
 }
