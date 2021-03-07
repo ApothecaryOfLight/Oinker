@@ -49,6 +49,7 @@ function request_icon() {
     //TODO: Set poster icon here.
     global.icon_data = json.icon_data;
     render_user_profile();
+    render_profile_icon();
     render_edit_profile_icon();
   });
 }

@@ -111,7 +111,7 @@ function request_background() {
   .then( json => {
     global.background_data = json.background_data;
     render_user_background();
-    render_profile_icon();
+    //render_profile_icon();
     render_edit_profile_background();
   });
 }
