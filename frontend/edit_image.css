@@ -138,7 +138,7 @@
 /*  border-radius: 50%;*/
 }
 
-#edit_background_draggable_image {
+/*#edit_background_draggable_image {
 }
 #edit_background_lens {
   position: absolute;
@@ -148,7 +148,6 @@
   border: 3px solid pink;
   width: calc(100% - 6px);
   height: calc(100% - 6px);
-/*  border-radius: 50%;*/
   cursor: move;
 }
 #edit_background_bottom_bar {
@@ -166,12 +165,9 @@
   margin-left: auto;
   margin-right: auto;
   height: 200px;
-/*  height: 3em;
-  background: purple;
-  border-radius: 50%;*/
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-}
+}*/
 
