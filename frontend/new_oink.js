@@ -44,10 +44,16 @@ function detach_new_oink_buttons() {
   new_oink_button.removeEventListener( 'mousedown', send_new_oink );
 }
 
+function process_text( inText ) {
+  const regex = /'/;
+  processed_text = inText.replace( regex, "&#39;" );
+  processed_text = processed_text.replace( /"/, "&quot;" );
+  return processed_text;
+}
+
 function send_new_oink() {
   const new_oink_field = document.getElementById("new_oink_message");
-  const new_oink_text = new_oink_field.innerText;
-
+  const new_oink_text = process_text( new_oink_field.innerText );
   const timestamp_raw = new Date(Date.now());
   const timestamp_string = timestamp_raw.toISOString();
   const date = timestamp_string.substr( 0, 10 );
