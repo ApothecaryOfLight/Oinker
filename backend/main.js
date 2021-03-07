@@ -29,7 +29,8 @@ app.get('/icon_request/:icon_id', async function(req,res) {
   } catch(error) {
     console.dir( error );
     res.send( JSON.stringify({
-      "result": "error"
+      "result": "error",
+      "error_message": "Unspecified icon error."
     }));
   }
 });
@@ -47,7 +48,8 @@ app.get('/background_request/:background_id', async function(req,res) {
   } catch(error) {
     console.dir( error );
     res.send( JSON.stringify({
-      "result": "error"
+      "result": "error",
+      "error_message": "Unspecified background error."
     }));
   }
 });
@@ -172,6 +174,7 @@ app.post('/attempt_create_account', async function(req,res) {
       ");";
     const [create_acct_row, create_acct_field] =
       await sqlPool.query( create_acct_query );
+
     res.send( JSON.stringify({
       "result": "approve",
       "username_hash": req.body.username_hash,

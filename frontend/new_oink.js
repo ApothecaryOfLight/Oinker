@@ -1,5 +1,6 @@
 /*New Oink*/
 function render_user_profile() {
+  if( global.icon_data.icon_blob_data == null ) { return; }
   const test_profile = document.getElementById("new_oink_icon");
   test_profile.src = global.icon_data.icon_blob_data;
 
@@ -81,7 +82,7 @@ function send_new_oink() {
     //console.dir( json );
     new_oink_field.innerHTML = "What's happening?";
       new_oink_field.style.color = "#80808066";
-    request_oinks();
+      request_oinks();
   });
   }
 }

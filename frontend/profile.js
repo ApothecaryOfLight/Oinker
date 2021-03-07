@@ -73,8 +73,12 @@ function render_profile() {
 console.log( "render profile");
   const bio = document.getElementById("profile_description");
   const location = document.getElementById("profile_location");
-  bio.innerHTML = global_profile.description;
-  location.innerHTML = global_profile.location;
+  if( global_profile.description != null ) {
+    bio.innerHTML = global_profile.description;
+  }
+  if( global_profile.location != null ) {
+    location.innerHTML = global_profile.location;
+  }
 
   render_username();
 }
@@ -82,8 +86,12 @@ console.log( "render profile");
 function render_edit_profile() {
   const bio = document.getElementById("edit_profile_description");
   const location = document.getElementById("edit_profile_location");
-  bio.value = global_profile.description;
-  location.value = global_profile.location;
+  if( global_profile.description != null ) {
+    bio.value = global_profile.description;
+  }
+  if( global_profile.location != null ) {
+    location.value = global_profile.location;
+  }
 }
 
 function render_nym() {
@@ -128,6 +136,8 @@ function launch_edit_profile_modal() {
 }
 
 function render_profile_icon() {
+  if( !global.icon_data.icon_blob_data ) { return; }
+
   const edit_profile_icon = document.getElementById("profile_icon");
   edit_profile_icon.src = global.icon_data.icon_blob_data;
 
@@ -143,6 +153,8 @@ function render_profile_icon() {
 }
 
 function render_edit_profile_icon() {
+  if( !global.icon_data.icon_blob_data ) { return; }
+
   const edit_profile_icon = document.getElementById("edit_profile_icon");
   edit_profile_icon.src = global.icon_data.icon_blob_data;
 
@@ -158,6 +170,8 @@ function render_edit_profile_icon() {
 }
 
 function render_edit_profile_background() {
+  if( !global.background_data.background_blob_data ) { return; }
+
   const edit_profile_background = document.getElementById("edit_profile_background");
   edit_profile_background.src = global.background_data.background_blob_data;
 
@@ -229,6 +243,7 @@ function request_background() {
 }
 
 function render_user_background() {
+  if( !global.background_data.background_blob_data ) { return; }
   const test_profile = document.getElementById("user_background");
   test_profile.src = global.background_data.background_blob_data;
 

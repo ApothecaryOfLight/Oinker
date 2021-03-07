@@ -78,6 +78,8 @@ async function attempt_create_account() {
   ).then( response => response.json() )
   .then( json => {
     if( json.result == "approve" ) {
+console.log( "new account" );
+console.dir( json );
       global.logged = true;
       global.username_hash = md5(username);
       global.username_plaintext = username;

@@ -6,6 +6,7 @@
   height: 760px;
   border-radius: 16px;
   position: fixed;
+  z-index: 50;
 }
 
 #edit_icon_title_bar {
@@ -72,6 +73,8 @@
 .edit_profile_icon_container {
   width: 3em;
   height: 3em;
+  margin-left: 3.5em;
+  margin-top: -3em;
   background: purple;
   border-radius: 50%;
   overflow: hidden;
@@ -92,6 +95,7 @@
   height: 500px;
   border-radius: 16px;
   position: fixed;
+  z-index: 50;
 }
 #edit_background_title_bar {
   height: 32px;

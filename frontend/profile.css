@@ -7,34 +7,29 @@
 }
 #edit_profile_modal_title_bar {
   display: flex;
-  flex-direciton: row;
-}
-#edit_profile_modal_exit_button {
-  color: pink;
-  font-size: 2em;
-}
-#edit_profile_modal_save_button {
-  background: pink;
-  color: white;
-  border-radius: 22px;
-  font-size: 1.5em;
-  padding: .4em;
-}
-#edit_profile_modal_save_button:hover {
-  background: blue;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: .25em;
+  margin-bottom: .25em;
+  font-size: 1.6em;
+  font-weight: bold;
 }
 #edit_profile_icon_container {
   width: 6em;
   height: 6em;
+  margin-top: -3em;
+  margin-left: 2em;
   grid-column: 1;
   border-radius: 50%;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-#edit_profile_icon_container:hover {
-  border: 1px black solid;
+  position: relative;
+  z-index: 15;
+  background: white;
+  border: 2px solid white;
 }
 
 
@@ -47,19 +42,16 @@
   border-radius: 5px;
 }
 
-#upload_icon {
+.upload_icon {
+  position: absolute;
   border: 0px;
   background: #00000000;
   font-weight: bold;
   font-size: 2em;
   color: pink;
 }
-#upload_icon:hover {
+.upload_icon:hover {
   color: black;
-}
-
-#upload_background {
-  position: absolute;
 }
 
 #edit_profile_textarea_container {
@@ -165,6 +157,7 @@
   grid-row: 2;
   width: 100%;
   max-height: 200px;
+  min-height: 3em;
   overflow: hidden;
   display: flex;
   justify-content: center;
