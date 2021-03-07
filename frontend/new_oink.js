@@ -45,9 +45,10 @@ function detach_new_oink_buttons() {
 }
 
 function process_text( inText ) {
-  const regex = /'/;
+  const regex = /'/g;
   processed_text = inText.replace( regex, "&#39;" );
-  processed_text = processed_text.replace( /"/, "&quot;" );
+  processed_text = processed_text.replace( /"/g, "&quot;" );
+  processed_text = processed_text.replace( /\r\n|\n/g, "<br>" );
   return processed_text;
 }
 
