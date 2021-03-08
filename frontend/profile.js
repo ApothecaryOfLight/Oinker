@@ -111,13 +111,19 @@ function request_background() {
   .then( json => {
     global.background_data = json.background_data;
     render_user_background();
+  window.addEventListener( 'resize', render_user_background );
+
     //render_profile_icon();
     render_edit_profile_background();
   });
 }
 
 function render_user_background() {
-  if( !global.background_data.background_blob_data ) { return; }
+//console.log( "render_user_background()" );
+  if( !global.background_data.background_blob_data ) {
+    console.log( "No background data!" );
+    return;
+  }
   const test_profile = document.getElementById("user_background");
   test_profile.src = global.background_data.background_blob_data;
 
@@ -126,8 +132,15 @@ function render_user_background() {
   const profile_offset_x = global.background_data.offsetX;
   const profile_offset_y = global.background_data.offsetY;
 
-  if( screen.width < profile_width ) {
-    const ratio = screen.width/profile_width;
+  const profile = document.getElementById("profile_container");
+  const cc_profile = window.getComputedStyle(profile);
+  const profile_element_width = cc_profile.getPropertyValue('width');
+  const profile_width_number = profile_element_width.slice(
+    0,
+    profile_element_width.length-2
+  );
+  if( window.innerWidth < 700 ) {
+    const ratio = profile_width_number / 600;
     const mobile_screen_width = profile_width * ratio;
     const mobile_screen_height = profile_height * ratio;
     test_profile.style.width = mobile_screen_width + "px";
@@ -136,6 +149,9 @@ function render_user_background() {
     const mobile_screen_offset_y = profile_offset_y * ratio;
     test_profile.style['margin-left'] = mobile_screen_offset_x + "px";
     test_profile.style['margin-top'] = mobile_screen_offset_y + "px";
+
+    const container = document.getElementById("user_background_container");
+    container.style.height = (200*ratio) + "px";
   } else {
     test_profile.style.width = profile_width + "px";
     test_profile.style.height = profile_height + "px";
