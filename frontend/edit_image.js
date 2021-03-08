@@ -121,8 +121,8 @@ function attach_icon_modal() {
   const lens = document.getElementById("edit_icon_lens");
   lens.addEventListener( 'mousedown', (click) => {
     icon_global.move_click = true;
-    icon_global.start_click_x = click.x - icon_global.offsetX;
-    icon_global.start_click_y = click.y - icon_global.offsetY;
+    icon_global.start_click_x = click.x - (icon_global.offsetX/2);
+    icon_global.start_click_y = click.y - (icon_global.offsetY/2);
   });
   document.addEventListener( 'mouseup', (unclick) => {
     icon_global.move_click = false;
@@ -302,8 +302,8 @@ function attach_background_modal() {
   const lens = document.getElementById("edit_background_lens");
   lens.addEventListener( 'mousedown', (click) => {
     background_global.move_click = true;
-    background_global.start_click_x = click.x - background_global.offsetX;
-    background_global.start_click_y = click.y - background_global.offsetY;
+    background_global.start_click_x = click.x - (background_global.offsetX/2);
+    background_global.start_click_y = click.y - (background_global.offsetY/2);
   });
   document.addEventListener( 'mouseup', (unclick) => {
     background_global.move_click = false;
