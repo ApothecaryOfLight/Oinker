@@ -139,7 +139,20 @@ function render_user_background() {
     0,
     profile_element_width.length-2
   );
-  if( window.innerWidth < 700 ) {
+  if( window.innerWidth < 500 ) {
+    const ratio = 0.6;
+    const mobile_screen_width = profile_width * ratio;
+    const mobile_screen_height = profile_height * ratio;
+    test_profile.style.width = mobile_screen_width + "px";
+    test_profile.style.height = mobile_screen_height + "px";
+    const mobile_screen_offset_x = profile_offset_x * ratio;
+    const mobile_screen_offset_y = profile_offset_y * ratio;
+    test_profile.style['margin-left'] = mobile_screen_offset_x + "px";
+    test_profile.style['margin-top'] = mobile_screen_offset_y + "px";
+
+    const container = document.getElementById("user_background_container");
+    container.style.height = (200*ratio) + "px";
+  } else if( window.innerWidth < 700 ) {
     const ratio = profile_width_number / 600;
     const mobile_screen_width = profile_width * ratio;
     const mobile_screen_height = profile_height * ratio;
