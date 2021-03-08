@@ -54,9 +54,9 @@ function launch_icon_image_modal( inImageEventReference ) {
 
   //5) Set the image source.
   const image_container = document.getElementById("edit_icon_draggable_image");
+  image_container.attributeStyleMap.clear();
   icon_global.image_data = "data:" + mime_type + ";base64," + data;
   image_container.src = icon_global.image_data;
-
   //6) Wait until the image is loaded to gurantee that the CSS will be calculated.
   image_container.onload = function() {
     //7) Attach event listeners to the image modal.
@@ -144,6 +144,12 @@ function attach_icon_modal() {
     send_icon_to_server();
     close_icon_modal();
   });
+
+  const back_button = document.getElementById("edit_icon_back_button");
+  back_button.addEventListener( 'click', (click) => {
+    const icon_modal = document.getElementById("edit_icon_modal");
+    icon_modal.style.display = "none";
+  });
 }
 
 function send_icon_to_server() {
@@ -228,6 +234,7 @@ function launch_background_image_modal( inImageEventReference ) {
 
   //5) Set the image source.
   const image_container = document.getElementById("edit_background_draggable_image");
+  image_container.attributeStyleMap.clear();
   background_global.image_data = "data:" + mime_type + ";base64," + data;
   image_container.src = background_global.image_data;
 
@@ -317,6 +324,12 @@ function attach_background_modal() {
   save_button.addEventListener( 'click', (click) => {
     send_background_to_server();
     close_background_modal();
+  });
+
+  const back_button = document.getElementById("edit_background_back_button");
+  back_button.addEventListener( 'click', (click) => {
+    const background_modal = document.getElementById("edit_background_modal");
+    background_modal.style.display = "none";
   });
 }
 
