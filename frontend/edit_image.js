@@ -3,6 +3,7 @@
 function select_icon_image() {
   const input = document.createElement('input');
   input.type = 'file';
+  input.accept = 'image/*';
   input.onchange = e => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -256,8 +257,13 @@ function launch_background_image_modal( inImageEventReference ) {
     const zoom_width = ((slider.value)/100)*background_global.width;
     const zoom_height = ((slider.value)/100)*background_global.height;
 
-    draggable_image.style.width = zoom_width + "px";
-    draggable_image.style.height = zoom_height + "px";
+    if( window.innerWidth <= 500 ) {
+      draggable_image.style.width = (zoom_width*.6) + "px";
+      draggable_image.style.height = (zoom_height*.6) + "px";
+    } else {
+      draggable_image.style.width = zoom_width + "px";
+      draggable_image.style.height = zoom_height + "px";
+    }
   }
 }
 
@@ -280,7 +286,14 @@ function attach_background_modal() {
   slider.addEventListener( 'mousedown', (click) => {
     background_global.slider_click = true;
   });
+  slider.addEventListener( 'touchstart', (click) => {
+    background_global.slider_click = true;
+  });
+
   slider.addEventListener( 'mouseup', (click) => {
+    background_global.slider_click = false;
+  });
+  slider.addEventListener( 'touchend', (click) => {
     background_global.slider_click = false;
   });
 
@@ -293,8 +306,37 @@ function attach_background_modal() {
       const zoom_width = ((slider.value)/100)*background_global.width;
       const zoom_height = ((slider.value)/100)*background_global.height;
 
+    if( window.innerWidth <= 500 ) {
+      draggable_image.style.width = (zoom_width*.6) + "px";
+      draggable_image.style.height = (zoom_height*.6) + "px";
+    } else {
       draggable_image.style.width = zoom_width + "px";
       draggable_image.style.height = zoom_height + "px";
+    }
+//      draggable_image.style.width = zoom_width + "px";
+//      draggable_image.style.height = zoom_height + "px";
+    }
+  });
+  slider.addEventListener( 'touchmove', (unclick) => {
+    if( background_global.slider_click == true ) {
+
+      const draggable_image = document.getElementById("edit_background_draggable_image");
+
+      background_global.zoom = (slider.value)/100;
+console.log( background_global.zoom );
+      const zoom_width = ((slider.value)/100)*background_global.width;
+      const zoom_height = ((slider.value)/100)*background_global.height;
+
+    if( window.innerWidth <= 500 ) {
+      draggable_image.style.width = (zoom_width*.6) + "px";
+      draggable_image.style.height = (zoom_height*.6) + "px";
+    } else {
+      draggable_image.style.width = zoom_width + "px";
+      draggable_image.style.height = zoom_height + "px";
+    }
+
+//      draggable_image.style.width = zoom_width + "px";
+//      draggable_image.style.height = zoom_height + "px";
     }
   });
 
@@ -320,6 +362,32 @@ function attach_background_modal() {
     }
   });
 
+  lens.addEventListener( 'touchstart', (click) => {
+//console.log("touchstart");
+//console.dir( click );
+    background_global.move_click = true;
+    background_global.start_click_x = click.touches[0].screenX - (background_global.offsetX/2);
+    background_global.start_click_y = click.touches[0].screenY - (background_global.offsetY/2);
+  });
+  document.addEventListener( 'touchend', (unclick) => {
+    background_global.move_click = false;
+  });
+  document.addEventListener( 'touchmove', (move) => {
+    if( background_global.move_click == true ) {
+//console.log( "moving..." );
+//console.dir( move );
+      const draggable_image = document.getElementById("edit_background_draggable_image");
+      const offset_x = ((background_global.start_click_x - move.touches[0].screenX)*-1)*2;
+      const offset_y = ((background_global.start_click_y - move.touches[0].screenY)*-1)*2;
+//console.log( "setting offset to " + offset_x + "/" + offset_y );
+      draggable_image.style['margin-left'] = offset_x + "px";
+      draggable_image.style['margin-top'] = offset_y + "px";
+      background_global.offsetX = offset_x;
+      background_global.offsetY = offset_y;
+    }
+  });
+
+
   const save_button = document.getElementById("edit_background_save_button");
   save_button.addEventListener( 'click', (click) => {
     send_background_to_server();
@@ -334,14 +402,19 @@ function attach_background_modal() {
 }
 
 function send_background_to_server() {
+  let multiplier = 1;
+  if( window.innerWidth <= 500 ) {
+    multiplier = 1.6;
+  }
+
   fetch( 'http://34.209.84.105:3000/upload_background',
     {
       method: 'POST',
       body: JSON.stringify({
         "background_id": global.background_id,
         "background_data" : (background_global.image_data),
-        "offsetX": background_global.offsetX,
-        "offsetY": background_global.offsetY,
+        "offsetX": background_global.offsetX*multiplier,
+        "offsetY": background_global.offsetY*multiplier,
         "width": background_global.width,
         "height": background_global.height,
         "zoom": background_global.zoom,
