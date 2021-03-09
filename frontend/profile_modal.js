@@ -60,13 +60,14 @@ function render_edit_profile_icon() {
   edit_profile_icon.style['margin-left'] = profile_offset_x + "px";
   edit_profile_icon.style['margin-top'] = profile_offset_y + "px";
 }
+
 function render_edit_profile_background() {
   if( !global.background_data.background_blob_data ) { return; }
+console.log( "render_edit_profile_background" );
+  const test_profile = document.getElementById("edit_profile_background");
+  test_profile.src = global.background_data.background_blob_data;
 
-  const edit_profile_background = document.getElementById("edit_profile_background");
-  edit_profile_background.src = global.background_data.background_blob_data;
-
-  const profile_width = (global.background_data.zoom*global.background_data.width);
+/*  const profile_width = (global.background_data.zoom*global.background_data.width);
   const profile_height = (global.background_data.zoom*global.background_data.height);
   const profile_offset_x = global.background_data.offsetX;
   const profile_offset_y = global.background_data.offsetY;
@@ -74,7 +75,51 @@ function render_edit_profile_background() {
   edit_profile_background.style.width = profile_width + "px";
   edit_profile_background.style.height = profile_height + "px";
   edit_profile_background.style['margin-left'] = profile_offset_x + "px";
-  edit_profile_background.style['margin-top'] = profile_offset_y + "px";
+  edit_profile_background.style['margin-top'] = profile_offset_y + "px";*/
+  const profile_width = (global.background_data.zoom*global.background_data.width);
+  const profile_height = (global.background_data.zoom*global.background_data.height);
+  const profile_offset_x = global.background_data.offsetX;
+  const profile_offset_y = global.background_data.offsetY;
+
+  const profile = document.getElementById("edit_profile_background_container");
+  const cc_profile = window.getComputedStyle(profile);
+  const profile_element_width = cc_profile.getPropertyValue('width');
+  const profile_width_number = profile_element_width.slice(
+    0,
+    profile_element_width.length-2
+  );
+  if( window.innerWidth < 500 ) {
+    const ratio = 0.6;
+    const mobile_screen_width = profile_width * ratio;
+    const mobile_screen_height = profile_height * ratio;
+    test_profile.style.width = mobile_screen_width + "px";
+    test_profile.style.height = mobile_screen_height + "px";
+    const mobile_screen_offset_x = profile_offset_x * ratio;
+    const mobile_screen_offset_y = profile_offset_y * ratio;
+    test_profile.style['margin-left'] = mobile_screen_offset_x + "px";
+    test_profile.style['margin-top'] = mobile_screen_offset_y + "px";
+
+    const container = document.getElementById("edit_profile_background_container");
+    container.style.height = (200*ratio) + "px";
+  } else if( window.innerWidth < 700 ) {
+    const ratio = profile_width_number / 600;
+    const mobile_screen_width = profile_width * ratio;
+    const mobile_screen_height = profile_height * ratio;
+    test_profile.style.width = mobile_screen_width + "px";
+    test_profile.style.height = mobile_screen_height + "px";
+    const mobile_screen_offset_x = profile_offset_x * ratio;
+    const mobile_screen_offset_y = profile_offset_y * ratio;
+    test_profile.style['margin-left'] = mobile_screen_offset_x + "px";
+    test_profile.style['margin-top'] = mobile_screen_offset_y + "px";
+
+    const container = document.getElementById("edit_profile_background_container");
+    container.style.height = (200*ratio) + "px";
+  } else {
+    test_profile.style.width = profile_width + "px";
+    test_profile.style.height = profile_height + "px";
+    test_profile.style['margin-left'] = profile_offset_x + "px";
+    test_profile.style['margin-top'] = profile_offset_y + "px";
+  }
 }
 
 const edit_profile_buttons = {
