@@ -124,4 +124,7 @@ function logout() {
   detach_profile_buttons();
   detach_new_oink_buttons();
   launch_login_interface();
+
+  const error_modal = document.getElementById("error_modal");
+  error_modal.style.display = "none";
 }
