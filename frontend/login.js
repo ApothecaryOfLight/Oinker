@@ -111,6 +111,8 @@ function logout() {
   .then( json => {
     console.dir( json );
   });*/
+  set_container("home_container");
+
   global.logged = false;
   global.username_hash = "";
   global.username_plaintext = "";
@@ -119,6 +121,16 @@ function logout() {
   global.icon_id = null;
   global.background_id = null;
   global.profile_id = null;
+  global.icon_data = null;
+  global.background_data = null;
+
+  const user_background_ref = document.getElementById("user_background");
+  user_background_ref.src = "//:0";
+  const profile_ref = document.getElementById("profile_icon");
+  profile_ref.src = "//:0";
+  const new_oink_icon_ref = document.getElementById("new_oink_icon");
+  new_oink_icon_ref.src = "//:0";
+
 
   detach_menu_buttons();
   detach_profile_buttons();
@@ -127,4 +139,28 @@ function logout() {
 
   const error_modal = document.getElementById("error_modal");
   error_modal.style.display = "none";
+}
+
+function reset_globals() {
+  icon_global.slicker_click = false;
+  icon_global.move_click = false;
+  icon_global.start_click_x = 0;
+  icon_global.start_click_y = 0;
+  icon_global.width = 0;
+  icon_global.height = 0;
+  icon_global.image_data = null;
+  icon_global.zoom = 30;
+  icon_global.offsetX = 0;
+  icon_global.offsetY = 0;
+
+  background_global.slicker_click = false;
+  background_global.move_click = false;
+  background_global.start_click_x = 0;
+  background_global.start_click_y = 0;
+  background_global.width = 0;
+  background_global.height = 0;
+  background_global.image_data = null;
+  background_global.zoom = 30;
+  background_global.offsetX = 0;
+  background_global.offsetY = 0;
 }
