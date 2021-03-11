@@ -104,6 +104,13 @@ function attach_icon_modal() {
     icon_global.slider_click = false;
   });
 
+  slider.addEventListener( 'touchstart', (click) => {
+    icon_global.slider_click = true;
+  });
+  slider.addEventListener( 'touchend', (click) => {
+    icon_global.slider_click = false;
+  });
+
   slider.addEventListener( 'mousemove', (unclick) => {
     if( icon_global.slider_click == true ) {
 
@@ -117,6 +124,25 @@ function attach_icon_modal() {
       draggable_image.style.height = zoom_height + "px";
     }
   });
+  slider.addEventListener( 'touchmove', (unclick) => {
+    if( icon_global.slider_click == true ) {
+
+      const draggable_image = document.getElementById("edit_icon_draggable_image");
+
+      icon_global.zoom = (slider.value)/100;
+      const zoom_width = ((slider.value)/100)*icon_global.width;
+      const zoom_height = ((slider.value)/100)*icon_global.height;
+
+      if( window.innerWidth <= 500 ) {
+        draggable_image.style.width = (zoom_width*.6) + "px";
+        draggable_image.style.height = (zoom_height*.6) + "px";
+      } else {
+        draggable_image.style.width = zoom_width + "px";
+        draggable_image.style.height = zoom_height + "px";
+      }
+    }
+  });
+
 
   //2) Attach move event.
   const lens = document.getElementById("edit_icon_lens");
@@ -140,6 +166,28 @@ function attach_icon_modal() {
     }
   });
 
+
+  lens.addEventListener( 'touchstart', (click) => {
+    icon_global.move_click = true;
+    icon_global.start_click_x = click.touches[0].screenX - (icon_global.offsetX/2);
+    icon_global.start_click_y = click.touches[0].screenY - (icon_global.offsetY/2);
+  });
+  document.addEventListener( 'touchend', (unclick) => {
+    icon_global.move_click = false;
+  });
+  document.addEventListener( 'touchmove', (move) => {
+    if( icon_global.move_click == true ) {
+      const draggable_image = document.getElementById("edit_icon_draggable_image");
+      const offset_x = ((icon_global.start_click_x - move.touches[0].screenX)*-1)*2;
+      const offset_y = ((icon_global.start_click_y - move.touches[0].screenY)*-1)*2;
+      draggable_image.style['margin-left'] = offset_x + "px";
+      draggable_image.style['margin-top'] = offset_y + "px";
+      icon_global.offsetX = offset_x;
+      icon_global.offsetY = offset_y;
+    }
+  });
+
+
   const save_button = document.getElementById("edit_icon_save_button");
   save_button.addEventListener( 'click', (click) => {
     send_icon_to_server();
@@ -153,31 +201,7 @@ function attach_icon_modal() {
   });
 }
 
-function send_icon_to_server() {
-  fetch( 'http://34.209.84.105:3000/upload_icon',
-    {
-      method: 'POST',
-      body: JSON.stringify({
-        "icon_id": global.icon_id,
-        "icon_data" : (icon_global.image_data),
-        "offsetX": icon_global.offsetX,
-        "offsetY": icon_global.offsetY,
-        "width": icon_global.width,
-        "height": icon_global.height,
-        "zoom": icon_global.zoom,
-        "original_width": 600,
-        "original_height": 600
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-  ).then( response => response.json() )
-  .then( json => {
-    request_icon();
-    //TODO: Non-success code.
-  });
-}
+
 
 
 //Background image
@@ -323,20 +347,16 @@ function attach_background_modal() {
       const draggable_image = document.getElementById("edit_background_draggable_image");
 
       background_global.zoom = (slider.value)/100;
-console.log( background_global.zoom );
       const zoom_width = ((slider.value)/100)*background_global.width;
       const zoom_height = ((slider.value)/100)*background_global.height;
 
-    if( window.innerWidth <= 500 ) {
-      draggable_image.style.width = (zoom_width*.6) + "px";
-      draggable_image.style.height = (zoom_height*.6) + "px";
-    } else {
-      draggable_image.style.width = zoom_width + "px";
-      draggable_image.style.height = zoom_height + "px";
-    }
-
-//      draggable_image.style.width = zoom_width + "px";
-//      draggable_image.style.height = zoom_height + "px";
+      if( window.innerWidth <= 500 ) {
+        draggable_image.style.width = (zoom_width*.6) + "px";
+        draggable_image.style.height = (zoom_height*.6) + "px";
+      } else {
+        draggable_image.style.width = zoom_width + "px";
+        draggable_image.style.height = zoom_height + "px";
+      }
     }
   });
 
@@ -428,6 +448,36 @@ function send_background_to_server() {
   ).then( response => response.json() )
   .then( json => {
     request_background();
+    //TODO: Non-success code.
+  });
+}
+
+function send_icon_to_server() {
+  let multiplier = 1;
+  if( window.innerWidth <= 500 ) {
+    multiplier = 1.6;
+  }
+  fetch( 'http://34.209.84.105:3000/upload_icon',
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        "icon_id": global.icon_id,
+        "icon_data" : (icon_global.image_data),
+        "offsetX": icon_global.offsetX*multiplier,
+        "offsetY": icon_global.offsetY*multiplier,
+        "width": icon_global.width,
+        "height": icon_global.height,
+        "zoom": icon_global.zoom,
+        "original_width": 600,
+        "original_height": 600
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  ).then( response => response.json() )
+  .then( json => {
+    request_icon();
     //TODO: Non-success code.
   });
 }
