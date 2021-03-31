@@ -4,7 +4,7 @@ const profile_buttons = {
 }
 
 function get_profile() {
-  fetch( 'http://34.209.84.105:3000/get_profile/' + global.profile_id,
+  fetch( 'https://oinker.xyz:3000/get_profile/' + global.profile_id,
     {
       'method': 'GET'
     }

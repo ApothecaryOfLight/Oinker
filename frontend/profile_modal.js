@@ -2,7 +2,7 @@ function save_profile() {
   const name = document.getElementById("edit_profile_nym").value;
   const bio = document.getElementById("edit_profile_description").value;
   const location = document.getElementById("edit_profile_location").value;
-  fetch( 'http://34.209.84.105:3000/set_profile',
+  fetch( 'https://oinker.xyz:3000/set_profile',
     {
       method: 'POST',
       body: JSON.stringify({

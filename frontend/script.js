@@ -40,7 +40,7 @@ function launch_oink_interface() {
 
 function request_icon() {
   console.log( "request_icon" );
-  fetch( 'http://34.209.84.105:3000/icon_request/' + global.icon_id,
+  fetch( 'https://oinker.xyz:3000/icon_request/' + global.icon_id,
     {
       method: 'GET'
     }

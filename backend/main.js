@@ -15,6 +15,13 @@ const sqlPool = mysql.createPoolPromise({
   connectionLimit: 50
 });
 
+/*HTTPS*/
+var fs = require('fs');
+var https = require('https');
+var privateKey = fs.readFileSync('/home/ubuntu/privkey.pem');
+var certificate = fs.readFileSync('/home/ubuntu/fullchain.pem');
+var credentials = {key: privateKey, cert: certificate};
+var server = https.createServer( credentials, app );
 
 app.get('/icon_request/:icon_id', async function(req,res) {
   try {
@@ -330,4 +337,5 @@ app.post( '/get_nym', async function(req,res) {
   }
 });
 
-app.listen( 3000 );
+server.listen( 3000 );
+//app.listen( 3000 );
