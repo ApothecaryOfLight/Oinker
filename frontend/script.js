@@ -24,7 +24,7 @@ function launch_oink_interface() {
 
 /*function request_background() {
   console.log( "request_background" );
-  fetch( 'http://34.209.84.105:3000/background_request/' + global.background_id,
+  fetch( 'https://oinker.xyz:8004/background_request/' + global.background_id,
     {
       method: 'GET'
     }
@@ -40,7 +40,7 @@ function launch_oink_interface() {
 
 function request_icon() {
   console.log( "request_icon" );
-  fetch( 'https://oinker.xyz:3000/icon_request/' + global.icon_id,
+  fetch( 'https://oinker.xyz:8004/icon_request/' + global.icon_id,
     {
       method: 'GET'
     }

@@ -427,7 +427,7 @@ function send_background_to_server() {
     multiplier = 1.6;
   }
 
-  fetch( 'https://oinker.xyz:3000/upload_background',
+  fetch( 'https://oinker.xyz:8004/upload_background',
     {
       method: 'POST',
       body: JSON.stringify({
@@ -457,7 +457,7 @@ function send_icon_to_server() {
   if( window.innerWidth <= 500 ) {
     multiplier = 1.6;
   }
-  fetch( 'https://oinker.xyz:3000/upload_icon',
+  fetch( 'https://oinker.xyz:8004/upload_icon',
     {
       method: 'POST',
       body: JSON.stringify({

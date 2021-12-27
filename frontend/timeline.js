@@ -1,6 +1,6 @@
 async function request_oinks() {
   global.last_get = Date.now();
-  fetch( 'https://oinker.xyz:3000/oinks',
+  fetch( 'https://oinker.xyz:8004/oinks',
     {
       method: 'GET'
     }
@@ -82,7 +82,7 @@ function render_delete_html( oink ) {
 
 function delete_oink( oink_id ) {
   console.log( "Sending delete to server for " + oink_id + "." );
-    fetch( 'https://oinker.xyz:3000/delete_oink',
+    fetch( 'https://oinker.xyz:8004/delete_oink',
     {
       method: 'POST',
       body: JSON.stringify({

@@ -18,8 +18,8 @@ const sqlPool = mysql.createPoolPromise({
 /*HTTPS*/
 var fs = require('fs');
 var https = require('https');
-var privateKey = fs.readFileSync('/home/ubuntu/privkey.pem');
-var certificate = fs.readFileSync('/home/ubuntu/fullchain.pem');
+var privateKey = fs.readFileSync('../oinker-privkey.pem');
+var certificate = fs.readFileSync('../oinker-fullchain.pem');
 var credentials = {key: privateKey, cert: certificate};
 var server = https.createServer( credentials, app );
 
@@ -337,5 +337,5 @@ app.post( '/get_nym', async function(req,res) {
   }
 });
 
-server.listen( 3000 );
+server.listen( 8004 );
 //app.listen( 3000 );
