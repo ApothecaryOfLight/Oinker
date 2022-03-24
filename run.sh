@@ -1,11 +1,11 @@
 #!/bin/bash
 cd "${0%/*}"
-if [[ "$1" = "dev" ]];
+if [[ "$1" = "http" ]];
 then
   IP=$(hostname -I | xargs)
   echo "const ip = \"ws://${IP}:3004\";" > ./frontend/ip_file.sh
   cd backend && screen -d -m -S Oinker bash -c './run.sh http'
-elif [[ "$1" = "prod" ]];
+elif [[ "$1" = "https" ]];
 then
   echo "const ip = \"wss://oinker.xyz:3004\";" > ./frontend/ip_file.sh
   cd backend && screen -d -m -S Oinker bash -c './run.sh https'
