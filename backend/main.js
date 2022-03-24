@@ -15,14 +15,6 @@ const sqlPool = mysql.createPoolPromise({
   connectionLimit: 50
 });
 
-/*HTTPS*/
-var fs = require('fs');
-var https = require('https');
-var privateKey = fs.readFileSync('../oinker-privkey.pem');
-var certificate = fs.readFileSync('../oinker-fullchain.pem');
-var credentials = {key: privateKey, cert: certificate};
-var server = https.createServer( credentials, app );
-
 app.get('/icon_request/:icon_id', async function(req,res) {
   try {
     //console.log( "Getting icon id: " + req.params.icon_id );
@@ -337,5 +329,19 @@ app.post( '/get_nym', async function(req,res) {
   }
 });
 
-server.listen( 3004 );
-//app.listen( 3000 );
+/*HTTP or HTTPS*/
+var fs = require('fs');
+var https = require('https');
+var privateKey;
+var certificate;
+var credentials;
+
+if( process.argv[2] == "https" ) {
+  privateKey = fs.readFileSync('../oinker-privkey.pem');
+  certificate = fs.readFileSync('../oinker-fullchain.pem');
+  credentials = {key: privateKey, cert: certificate};
+  var server = https.createServer( credentials, app );
+  server.listen( 3004 );
+} else {
+  app.listen( 3004 );
+}
