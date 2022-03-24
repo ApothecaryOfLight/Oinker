@@ -1,3 +1,4 @@
+cd "${0%/*}"
 if [[ "$1" = "standalone" ]];
 then
   #==NODEJS==
