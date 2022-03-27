@@ -3,11 +3,11 @@ cd "${0%/*}"
 if [[ "$1" = "http" ]];
 then
   IP=$(hostname -I | xargs)
-  echo "const ip = \"ws://${IP}:3004\";" > ./frontend/ip_file.js
+  echo "const ip = \"http://${IP}:3004\";" > ./frontend/ip_file.js
   cd backend && screen -d -m -S Oinker bash -c './run.sh http'
 elif [[ "$1" = "https" ]];
 then
-  echo "const ip = \"wss://oinker.xyz:3004\";" > ./frontend/ip_file.js
+  echo "const ip = \"https://oinker.xyz:3004\";" > ./frontend/ip_file.js
   cd backend && screen -d -m -S Oinker bash -c './run.sh https'
 else
   echo "Command line argument:";
