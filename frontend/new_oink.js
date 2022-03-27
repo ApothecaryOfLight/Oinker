@@ -63,7 +63,7 @@ function send_new_oink() {
   const clean_timestamp = date + " " + time;
 
   if( new_oink_text != "What's happening?" ) {
-    fetch( 'https://oinker.xyz:8004/new_oink',
+    fetch( ip + '/new_oink',
     {
       method: 'POST',
       body: JSON.stringify({

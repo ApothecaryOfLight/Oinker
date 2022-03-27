@@ -28,7 +28,7 @@ function detach_login() {
 async function attempt_login() {
   const username = document.getElementById("username_field").value;
   const password = document.getElementById("password_field").value;
-  fetch( 'https://oinker.xyz:8004/attempt_login',
+  fetch( ip + '/attempt_login',
     {
       method: 'POST',
       body: JSON.stringify({
@@ -63,7 +63,7 @@ async function attempt_login() {
 async function attempt_create_account() {
   const username = document.getElementById("username_field").value;
   const password = document.getElementById("password_field").value;
-  fetch( 'https://oinker.xyz:8004/attempt_create_account',
+  fetch( ip + '/attempt_create_account',
     {
       method: 'POST',
       body: JSON.stringify({

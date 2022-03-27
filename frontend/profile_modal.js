@@ -2,7 +2,7 @@ function save_profile() {
   const name = document.getElementById("edit_profile_nym").value;
   const bio = document.getElementById("edit_profile_description").value;
   const location = document.getElementById("edit_profile_location").value;
-  fetch( 'https://oinker.xyz:8004/set_profile',
+  fetch( ip + '/set_profile',
     {
       method: 'POST',
       body: JSON.stringify({

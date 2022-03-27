@@ -4,7 +4,7 @@ const profile_buttons = {
 }
 
 function get_profile() {
-  fetch( 'https://oinker.xyz:8004/get_profile/' + global.profile_id,
+  fetch( ip + '/get_profile/' + global.profile_id,
     {
       'method': 'GET'
     }
@@ -19,7 +19,7 @@ function get_profile() {
 }
 
 function get_nym() {
-  fetch( 'https://oinker.xyz:8004/get_nym',
+  fetch( ip + '/get_nym',
     {
       method: 'POST',
       body: JSON.stringify({
@@ -103,7 +103,7 @@ function render_profile_icon() {
 
 function request_background() {
   console.log( "request_background" );
-  fetch( 'https://oinker.xyz:8004/background_request/' + global.background_id,
+  fetch( ip + '/background_request/' + global.background_id,
     {
       method: 'GET'
     }
