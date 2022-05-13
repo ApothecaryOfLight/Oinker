@@ -17,7 +17,6 @@ const sqlPool = mysql.createPoolPromise({
 
 app.get('/icon_request/:icon_id', async function(req,res) {
   try {
-    //console.log( "Getting icon id: " + req.params.icon_id );
     const icon_query = "SELECT * FROM icons WHERE icon_id=" +
       req.params.icon_id + ";"
     const [icon_row,icon_field] = await sqlPool.query( icon_query );
@@ -36,7 +35,6 @@ app.get('/icon_request/:icon_id', async function(req,res) {
 
 app.get('/background_request/:background_id', async function(req,res) {
   try {
-    //console.log( "Getting icon id: " + req.params.icon_id );
     const background_query = "SELECT * FROM backgrounds WHERE background_id=" +
       req.params.background_id + ";"
     const [background_row,background_field] = await sqlPool.query( background_query );
@@ -55,7 +53,6 @@ app.get('/background_request/:background_id', async function(req,res) {
 
 app.post('/upload_icon', async function(req,res) {
   try {
-    //console.log( "Upload icon" );
     const insert_icon_query = "UPDATE icons set icon_blob_data = " +
       "\"" + req.body.icon_data + "\", " +
       "offsetX = " + req.body.offsetX + ", " +
@@ -67,7 +64,6 @@ app.post('/upload_icon', async function(req,res) {
       "original_height = " + req.body.original_height + " " +
       "WHERE " + req.body.icon_id + " = icon_id" +
       ";";
-    //console.log( insert_icon_query );
 
     const [icon_row,icon_field] = await sqlPool.query( insert_icon_query );
 
@@ -84,7 +80,6 @@ app.post('/upload_icon', async function(req,res) {
 
 app.post('/upload_background', async function(req,res) {
   try {
-    //console.log( "Upload background" );
     const insert_background_query = "UPDATE backgrounds set background_blob_data = " +
       "\"" + req.body.background_data + "\", " +
       "offsetX = " + req.body.offsetX + ", " +
@@ -96,7 +91,6 @@ app.post('/upload_background', async function(req,res) {
       "original_height = " + req.body.original_height + " " +
       "WHERE " + req.body.background_id + " = background_id" +
       ";";
-    //console.log( insert_background_query );
 
     const [background_row,background_field] = await sqlPool.query( insert_background_query );
 
@@ -215,8 +209,6 @@ app.post( '/new_oink', async function(req,res) {
 
   const [out_row,out_field] = await sqlPool.query( addOinkQuery );
 
-
-  //TODO: Error handling.
   res.send( JSON.stringify({
     result: "success"
   }));

@@ -1,9 +1,20 @@
 'use strict;'
 
+
+/*
+Function to get a reference to an element by its ID.
+Shorthand wrapper for document.getElementById.
+
+elementName: ID of element to get a reference to.
+*/
 function getDomRef( elementName ) {
   return document.getElementById( elementName );
 }
 
+
+/*
+Function to launch the error modal.
+*/
 function launch_error_modal( error_message, buttons ) {
   const error_modal_ref = getDomRef( "error_modal" );
   const modal_background = getDomRef( "modal_background" );
@@ -26,6 +37,10 @@ function launch_error_modal( error_message, buttons ) {
   error_buttons_container.innerHTML = dom;
 }
 
+
+/*
+Function to close the error modal.
+*/
 function close_error_modal() {
   const error_modal_ref = getDomRef( "error_modal" );
   error_modal_ref.style.display = "none";

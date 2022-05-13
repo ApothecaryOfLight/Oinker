@@ -1,13 +1,26 @@
-//Profile image
-
+/*
+Function to select an image from your local computer to use as a profile image.
+*/
 function select_icon_image() {
+  //Get the input element reference.
   const input = document.createElement('input');
+
+  //Set up the file reading.
   input.type = 'file';
   input.accept = 'image/*';
+
+  //Set an event listener to listen for a file event.
   input.onchange = e => {
+    //Get a reference to the file.
     const file = e.target.files[0];
+
+    //Create a file reader.
     const reader = new FileReader();
+
+    //Read the file.
     reader.readAsDataURL( file );
+
+    //Upon the file being loaded, launch the interface to adjust it.
     reader.onload = readerEvent => {
       launch_icon_image_modal( readerEvent );
     }
@@ -15,12 +28,23 @@ function select_icon_image() {
   input.click();
 }
 
+
+/*
+Function to close the edit profile image modal.
+*/
 function close_icon_modal() {
   const modal = document.getElementById("edit_icon_modal");
   modal.style.display = "none";
 }
 
+
+/*
+Function to launch the profile image editor.
+
+inImageEventReference: The image to be used as a profile image.
+*/
 function launch_icon_image_modal( inImageEventReference ) {
+  //Set the global variables for the profile image editing interface to defaults.
   icon_global.slider_click = false;
   icon_global.move_click = false;
   icon_global.start_click_x = 0;
@@ -31,39 +55,40 @@ function launch_icon_image_modal( inImageEventReference ) {
   icon_global.offsetX = 0;
   icon_global.offsetY = 0;
 
-  //1) Make sure that the image is small enough.
+  //Make sure that the image is small enough.
   const size = inImageEventReference.total/1000000;
   if( size > 15 ) {
     alert("Image too large! 16mb limit." );
     return;
   }
 
-  //2) Get the mime type.
+  //Get the mime type.
   const mime_type = inImageEventReference.srcElement.result.substr(
     5,
     inImageEventReference.srcElement.result.indexOf(";")-5
   );
 
-  //3) Get the data of the image.
+  //Get the data of the image.
   const content = inImageEventReference.target.result;
   const pos = inImageEventReference.target.result.indexOf( "," );
   const data = content.substr( pos+1 );
 
-  //4) Make the modal visible.
+  //Make the modal visible.
   const modal = document.getElementById("edit_icon_modal");
   modal.style.display = "flex";
 
-  //5) Set the image source.
+  //Set the image source.
   const image_container = document.getElementById("edit_icon_draggable_image");
   image_container.attributeStyleMap.clear();
   icon_global.image_data = "data:" + mime_type + ";base64," + data;
   image_container.src = icon_global.image_data;
-  //6) Wait until the image is loaded to gurantee that the CSS will be calculated.
+
+  //Wait until the image is loaded to gurantee that the CSS will be calculated.
   image_container.onload = function() {
-    //7) Attach event listeners to the image modal.
+    //Attach event listeners to the image modal.
     attach_icon_modal();
 
-    //8) Store the original image dimensions so we can preserve the aspect ratio.
+    //Store the original image dimensions so we can preserve the aspect ratio.
     const draggable_image = document.getElementById("edit_icon_draggable_image");
     const draggable_image_real = window.getComputedStyle( draggable_image );
     const width_txt = draggable_image_real.getPropertyValue('width');
@@ -81,6 +106,10 @@ function launch_icon_image_modal( inImageEventReference ) {
   }
 }
 
+
+/*
+Global variables for the profile editing interface.
+*/
 const icon_global = {
   slider_click: false,
   move_click: false,
@@ -94,8 +123,12 @@ const icon_global = {
   offsetY: 0
 }
 
+
+/*
+Attach event listeners to the profile editing modal.
+*/
 function attach_icon_modal() {
-  //1) Attach slider events.
+  //Attach slider events.
   const slider = document.getElementById("edit_icon_framing_slider");
   slider.addEventListener( 'mousedown', (click) => {
     icon_global.slider_click = true;
@@ -144,7 +177,7 @@ function attach_icon_modal() {
   });
 
 
-  //2) Attach move event.
+  //Attach move event.
   const lens = document.getElementById("edit_icon_lens");
   lens.addEventListener( 'mousedown', (click) => {
     icon_global.move_click = true;
@@ -187,13 +220,14 @@ function attach_icon_modal() {
     }
   });
 
-
+  //Attach save button click event.
   const save_button = document.getElementById("edit_icon_save_button");
   save_button.addEventListener( 'click', (click) => {
     send_icon_to_server();
     close_icon_modal();
   });
 
+  //Attach back button click event.
   const back_button = document.getElementById("edit_icon_back_button");
   back_button.addEventListener( 'click', (click) => {
     const icon_modal = document.getElementById("edit_icon_modal");
@@ -202,28 +236,51 @@ function attach_icon_modal() {
 }
 
 
-
-
-//Background image
+/*
+Function for the user to select a profile background image.
+*/
 function select_background_image() {
+  //Get a reference to the input element.
   const input = document.createElement('input');
+
+  //Set the file reading properties of the element.
   input.type = 'file';
+
+  //Attach an event to listen for the initiation of the file load.
   input.onchange = e => {
+    //Get a reference to the file.
     const file = e.target.files[0];
+
+    //Create a new file reader.
     const reader = new FileReader();
+
+    //Read the data.
     reader.readAsDataURL( file );
+
+    //Add an event listener that will fire upon the image being fully loaded.
     reader.onload = readerEvent => {
+      //Launch the interface to adjust the background image.
       launch_background_image_modal( readerEvent );
     }
   }
   input.click();
 }
 
+
+/*
+Function to close the background editing modal.
+*/
 function close_background_modal() {
   const modal = document.getElementById("edit_background_modal");
   modal.style.display = "none";
 }
 
+
+/*
+Function to launch the background editing modal.
+
+inImageEventReference: Reference to the file being loaded as the background image.
+*/
 function launch_background_image_modal( inImageEventReference ) {
   background_global.slider_click = false;
   background_global.move_click = false;
@@ -235,40 +292,40 @@ function launch_background_image_modal( inImageEventReference ) {
   background_global.offsetX = 0;
   background_global.offsetY = 0;
 
-  //1) Make sure that the image is small enough.
+  //Make sure that the image is small enough.
   const size = inImageEventReference.total/1000000;
   if( size > 15 ) {
     alert("Image too large! 16mb limit." );
     return;
   }
 
-  //2) Get the mime type.
+  //Get the mime type.
   const mime_type = inImageEventReference.srcElement.result.substr(
     5,
     inImageEventReference.srcElement.result.indexOf(";")-5
   );
 
-  //3) Get the data of the image.
+  //Get the data of the image.
   const content = inImageEventReference.target.result;
   const pos = inImageEventReference.target.result.indexOf( "," );
   const data = content.substr( pos+1 );
 
-  //4) Make the modal visible.
+  //Make the modal visible.
   const modal = document.getElementById("edit_background_modal");
   modal.style.display = "flex";
 
-  //5) Set the image source.
+  //Set the image source.
   const image_container = document.getElementById("edit_background_draggable_image");
   image_container.attributeStyleMap.clear();
   background_global.image_data = "data:" + mime_type + ";base64," + data;
   image_container.src = background_global.image_data;
 
-  //6) Wait until the image is loaded to gurantee that the CSS will be calculated.
+  //Wait until the image is loaded to gurantee that the CSS will be calculated.
   image_container.onload = function() {
-    //7) Attach event listeners to the image modal.
+    //Attach event listeners to the image modal.
     attach_background_modal();
 
-    //8) Store the original image dimensions so we can preserve the aspect ratio.
+    //Store the original image dimensions so we can preserve the aspect ratio.
     const draggable_image = document.getElementById("edit_background_draggable_image");
     const draggable_image_real = window.getComputedStyle( draggable_image );
     const width_txt = draggable_image_real.getPropertyValue('width');
@@ -291,6 +348,10 @@ function launch_background_image_modal( inImageEventReference ) {
   }
 }
 
+
+/*
+Global variables for the background editing interface.
+*/
 const background_global = {
   slider_click: false,
   move_click: false,
@@ -304,6 +365,10 @@ const background_global = {
   offsetY: 0
 }
 
+
+/*
+Function to attach events to the background editing modal.
+*/
 function attach_background_modal() {
   //1) Attach slider events.
   const slider = document.getElementById("edit_background_framing_slider");
@@ -323,22 +388,19 @@ function attach_background_modal() {
 
   slider.addEventListener( 'mousemove', (unclick) => {
     if( background_global.slider_click == true ) {
-
       const draggable_image = document.getElementById("edit_background_draggable_image");
 
       background_global.zoom = (slider.value)/100;
       const zoom_width = ((slider.value)/100)*background_global.width;
       const zoom_height = ((slider.value)/100)*background_global.height;
 
-    if( window.innerWidth <= 500 ) {
-      draggable_image.style.width = (zoom_width*.6) + "px";
-      draggable_image.style.height = (zoom_height*.6) + "px";
-    } else {
-      draggable_image.style.width = zoom_width + "px";
-      draggable_image.style.height = zoom_height + "px";
-    }
-//      draggable_image.style.width = zoom_width + "px";
-//      draggable_image.style.height = zoom_height + "px";
+      if( window.innerWidth <= 500 ) {
+        draggable_image.style.width = (zoom_width*.6) + "px";
+        draggable_image.style.height = (zoom_height*.6) + "px";
+      } else {
+        draggable_image.style.width = zoom_width + "px";
+        draggable_image.style.height = zoom_height + "px";
+      }
     }
   });
   slider.addEventListener( 'touchmove', (unclick) => {
@@ -360,7 +422,7 @@ function attach_background_modal() {
     }
   });
 
-  //2) Attach move event.
+  //Attach move event.
   const lens = document.getElementById("edit_background_lens");
   lens.addEventListener( 'mousedown', (click) => {
     background_global.move_click = true;
@@ -383,8 +445,6 @@ function attach_background_modal() {
   });
 
   lens.addEventListener( 'touchstart', (click) => {
-//console.log("touchstart");
-//console.dir( click );
     background_global.move_click = true;
     background_global.start_click_x = click.touches[0].screenX - (background_global.offsetX/2);
     background_global.start_click_y = click.touches[0].screenY - (background_global.offsetY/2);
@@ -394,12 +454,9 @@ function attach_background_modal() {
   });
   document.addEventListener( 'touchmove', (move) => {
     if( background_global.move_click == true ) {
-//console.log( "moving..." );
-//console.dir( move );
       const draggable_image = document.getElementById("edit_background_draggable_image");
       const offset_x = ((background_global.start_click_x - move.touches[0].screenX)*-1)*2;
       const offset_y = ((background_global.start_click_y - move.touches[0].screenY)*-1)*2;
-//console.log( "setting offset to " + offset_x + "/" + offset_y );
       draggable_image.style['margin-left'] = offset_x + "px";
       draggable_image.style['margin-top'] = offset_y + "px";
       background_global.offsetX = offset_x;
@@ -408,12 +465,14 @@ function attach_background_modal() {
   });
 
 
+  //Attach save button click event.
   const save_button = document.getElementById("edit_background_save_button");
   save_button.addEventListener( 'click', (click) => {
     send_background_to_server();
     close_background_modal();
   });
 
+  //Attach back button click event.
   const back_button = document.getElementById("edit_background_back_button");
   back_button.addEventListener( 'click', (click) => {
     const background_modal = document.getElementById("edit_background_modal");
@@ -421,6 +480,10 @@ function attach_background_modal() {
   });
 }
 
+
+/*
+Function to send the background image to the server.
+*/
 function send_background_to_server() {
   let multiplier = 1;
   if( window.innerWidth <= 500 ) {
@@ -448,10 +511,13 @@ function send_background_to_server() {
   ).then( response => response.json() )
   .then( json => {
     request_background();
-    //TODO: Non-success code.
   });
 }
 
+
+/*
+Function to send the profile image to the server.
+*/
 function send_icon_to_server() {
   let multiplier = 1;
   if( window.innerWidth <= 500 ) {
@@ -478,6 +544,5 @@ function send_icon_to_server() {
   ).then( response => response.json() )
   .then( json => {
     request_icon();
-    //TODO: Non-success code.
   });
 }

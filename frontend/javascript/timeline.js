@@ -1,3 +1,6 @@
+/*
+Function to get the latest oinks from the server.
+*/
 async function request_oinks() {
   global.last_get = Date.now();
   fetch( ip + '/oinks',
@@ -11,6 +14,10 @@ async function request_oinks() {
     });
 }
 
+
+/*
+Function to transform JSON formatted oinks into HTML elements.
+*/
 function render_timeline( inTimeline ) {
   let div = "";
   for( const oink in inTimeline.oinks ) {
@@ -46,6 +53,11 @@ function render_timeline( inTimeline ) {
   main_container.innerHTML = div;
 }
 
+
+/*
+Function to find already loaded icons, used to prevent asking the server
+for icons after they've already been delivered.
+*/
 function get_icon_place( icon_id, icons_obj ) {
   for( let icon_place in icons_obj ) {
     if( icons_obj[icon_place].icon_id == icon_id ) {
@@ -54,6 +66,10 @@ function get_icon_place( icon_id, icons_obj ) {
   }
 }
 
+
+/*
+Function to draw the icon image in an oink.
+*/
 function render_icon_html( icons, icon_place ) {
   const profile_width = (icons[icon_place].zoom*icons[icon_place].width)/12.5;
   const profile_height = (icons[icon_place].zoom*icons[icon_place].height)/12.5;
@@ -69,6 +85,10 @@ function render_icon_html( icons, icon_place ) {
   return img_text;
 }
 
+
+/*
+Function to draw a delete oink button on an oink this user has made.
+*/
 function render_delete_html( oink ) {
   const username_hash =
     String.fromCharCode.apply( null, oink.username_hash.data );
@@ -80,9 +100,12 @@ function render_delete_html( oink ) {
   return "";
 }
 
+
+/*
+Function to be called when an oink is deleted.
+*/
 function delete_oink( oink_id ) {
-  console.log( "Sending delete to server for " + oink_id + "." );
-    fetch( ip + '/delete_oink',
+  fetch( ip + '/delete_oink',
     {
       method: 'POST',
       body: JSON.stringify({
@@ -94,7 +117,6 @@ function delete_oink( oink_id ) {
     }
   ).then( response => response.json() )
   .then( json => {
-    //console.dir( json );
     request_oinks();
   });
 }

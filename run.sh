@@ -2,7 +2,7 @@
 cd "${0%/*}"
 if [[ "$1" = "http" ]];
 then
-  IP=$(hostname -I | xargs)
+  IP=$(curl ifconfig.me)
   echo "const ip = \"http://${IP}:3004\";" > ./frontend/ip_file.js
   cd backend && screen -d -m -S Oinker bash -c './run.sh http'
 elif [[ "$1" = "https" ]];

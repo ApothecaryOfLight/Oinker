@@ -1,3 +1,6 @@
+/*
+Placeholder data for the newsfeed.
+*/
 let fake_data = {
   news : [
     {
@@ -23,6 +26,10 @@ let fake_data = {
   ]
 }
 
+
+/*
+Function to draw the news-feed to the screen.
+*/
 function render_whats_happening( news ) {
   let dom = "<div class=\"news_items_title\">What\'s Happening</div>";
   for( const news_item in news ) {
